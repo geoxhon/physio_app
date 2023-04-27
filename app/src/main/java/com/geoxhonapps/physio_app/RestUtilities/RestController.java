@@ -1,6 +1,6 @@
 package com.geoxhonapps.physio_app.RestUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
-import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetPatientsResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FRestResponse;
 
@@ -37,16 +37,16 @@ public class RestController {
         }
         return new FLoginResponse(false);
     }
-    public ArrayList<FGetPatientsResponse> getAllPatients() throws IOException, JSONException {
-        ArrayList<FGetPatientsResponse> outPatients = new ArrayList<FGetPatientsResponse>();
-        FRestResponse r = requestComponent.Get("/api/v1/me/patients");
+    public ArrayList<FGetChildrenResponse> getAllChildren() throws IOException, JSONException {
+        ArrayList<FGetChildrenResponse> outPatients = new ArrayList<FGetChildrenResponse>();
+        FRestResponse r = requestComponent.Get("/api/v1/me/children");
         JSONObject data = new JSONObject(r.responseContent);
         if(data.getBoolean("success")){
             data = (JSONObject)data.get("triggerResults");
-            JSONArray patients = data.getJSONArray("patients");
+            JSONArray patients = data.getJSONArray("children");
             for(int i = 0; i<patients.length();i++){
                 JSONObject temp = patients.getJSONObject(i);
-                outPatients.add(new FGetPatientsResponse(true, temp.getString("id"), temp.getString("displayName"), temp.getString("email"), temp.getString("ssn")));
+                outPatients.add(new FGetChildrenResponse(true, temp.getString("id"), temp.getString("displayName"), temp.getString("email"), temp.getString("ssn")));
             }
         }
         System.out.println(outPatients);

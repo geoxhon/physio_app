@@ -1,11 +1,9 @@
 package com.geoxhonapps.physio_app.RestUtilities;
 
-import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
-import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetPatientsResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
-import com.geoxhonapps.physio_app.activities.HomeActivity;
 
 import org.json.JSONException;
 
@@ -21,7 +19,7 @@ public class ADoctorUser extends AUser{
             @Override
             public void run() {
                 try {
-                    ArrayList<FGetPatientsResponse> temp = StaticFunctionUtilities.getRestController().getAllPatients();
+                    ArrayList<FGetChildrenResponse> temp = StaticFunctionUtilities.getRestController().getAllChildren();
                     for(int i =0; i<temp.size();i++){
                         myPatients.add(new APatient(temp.get(i)));
                     }
@@ -41,9 +39,9 @@ public class ADoctorUser extends AUser{
      */
     public ArrayList<APatient> getPatients(boolean bShouldRefreshList){
         if(bShouldRefreshList){
-            ArrayList<FGetPatientsResponse> temp = null;
+            ArrayList<FGetChildrenResponse> temp = null;
             try {
-                temp = StaticFunctionUtilities.getRestController().getAllPatients();
+                temp = StaticFunctionUtilities.getRestController().getAllChildren();
                 myPatients.clear();
                 for(int i =0; i<temp.size();i++){
                     myPatients.add(new APatient(temp.get(i)));
