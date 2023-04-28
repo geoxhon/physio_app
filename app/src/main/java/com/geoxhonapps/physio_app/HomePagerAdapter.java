@@ -15,7 +15,7 @@ import com.geoxhonapps.physio_app.fragments.SearchFragment;
  * Αυτή η κλάση διαχειρίζεται το Bottom Navigation Bar της εφαρμογής
  */
 public class HomePagerAdapter extends FragmentStateAdapter {
-    private static int NUM_PAGES = 2;
+    private static int NUM_PAGES = 3;
 
     public HomePagerAdapter(FragmentActivity fa) {
         super(fa);
