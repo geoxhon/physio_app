@@ -1,6 +1,9 @@
 package com.geoxhonapps.physio_app.RestUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAvailabilityResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetCreatorResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FRestResponse;
 
@@ -67,5 +70,63 @@ public class RestController {
             return new FCreateUserResponse(true, data.getString("userId"), data.getString("createdAt"), data.getInt("accountType"));
         }
         return new FCreateUserResponse(false);
+    }
+
+    public FGetAvailabilityResponse getAvailability() throws JSONException, IOException {
+        FRestResponse r = requestComponent.Get("/api/v1/appointments/availability");
+        JSONObject data = new JSONObject(r.responseContent);
+        if(data.getBoolean("success")) {
+            JSONArray arr = data.getJSONArray("triggerResults");
+            ArrayList<Long> timestamps = new ArrayList<Long>();
+            for(int i = 0; i<arr.length(); i++){
+                timestamps.add(arr.getLong(i)*1000);
+            }
+            return new FGetAvailabilityResponse(true, timestamps);
+        }
+        return new FGetAvailabilityResponse(false);
+    }
+    public ArrayList<FGetAppointmentResponse> getAppointments() throws JSONException, IOException {
+        FRestResponse r = requestComponent.Get("/api/v1/appointments");
+        ArrayList<FGetAppointmentResponse> outResults = new ArrayList<FGetAppointmentResponse>();
+        JSONObject data = new JSONObject(r.responseContent);
+        if(data.getBoolean("success")) {
+            data = data.getJSONObject("triggerResults");
+            JSONArray arr = data.getJSONArray("appointments");
+            for(int i = 0; i<arr.length(); i++){
+                data = arr.getJSONObject(i);
+                outResults.add(new FGetAppointmentResponse(true, data.getInt("id"), data.getString("user"), data.getInt("status"), data.getString("date")));
+            }
+        }
+        return outResults;
+    }
+    public FGetCreatorResponse getCreator() throws JSONException, IOException{
+        FRestResponse r = requestComponent.Get("/api/v1/me/creator");
+        JSONObject data = new JSONObject(r.responseContent);
+        if(data.getBoolean("success")) {
+            data = data.getJSONObject("triggerResults");
+            return new FGetCreatorResponse(true, data.getString("displayName"), data.getString("email"), data.getString("SSN"));
+        }
+        return new FGetCreatorResponse(false);
+    }
+    public boolean acceptAppointment(int id) throws IOException, JSONException {
+        JSONObject obj = new JSONObject();
+        FRestResponse r = requestComponent.Post("/api/v1/appointments/"+Integer.toString(id)+"/accept", obj);
+        JSONObject data = new JSONObject(r.responseContent);
+        return data.getBoolean("success");
+    }
+
+    public boolean cancelAppointment(int id) throws IOException, JSONException {
+        JSONObject obj = new JSONObject();
+        FRestResponse r = requestComponent.Post("/api/v1/appointments/"+Integer.toString(id)+"/cancel", obj);
+        JSONObject data = new JSONObject(r.responseContent);
+        return data.getBoolean("success");
+    }
+
+    public boolean bookAppointment(Long timestamp) throws IOException, JSONException {
+        JSONObject obj = new JSONObject();
+        obj.put("timestamp", timestamp);
+        FRestResponse r = requestComponent.Post("/api/v1/appointments/book", obj);
+        JSONObject data = new JSONObject(r.responseContent);
+        return data.getBoolean("success");
     }
 }

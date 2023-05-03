@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.geoxhonapps.physio_app.R;
+import com.geoxhonapps.physio_app.RestUtilities.ADoctorUser;
+import com.geoxhonapps.physio_app.RestUtilities.EUserType;
+import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
 public class CalendarFragment extends Fragment {
 

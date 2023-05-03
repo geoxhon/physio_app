@@ -1,6 +1,7 @@
 package com.geoxhonapps.physio_app.RestUtilities;
 
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 
 public class ADoctorUser extends AUser{
     private ArrayList<APatient> myPatients;
+    private ArrayList<AAppointment> myAppointments;
     public ADoctorUser(FLoginResponse userInfo) {
         super(userInfo);
         myPatients = new ArrayList<APatient>();
+        myAppointments = new ArrayList<AAppointment>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -22,6 +25,10 @@ public class ADoctorUser extends AUser{
                     ArrayList<FGetChildrenResponse> temp = StaticFunctionUtilities.getRestController().getAllChildren();
                     for(int i =0; i<temp.size();i++){
                         myPatients.add(new APatient(temp.get(i)));
+                    }
+                    ArrayList<FGetAppointmentResponse> tempAppointments = StaticFunctionUtilities.getRestController().getAppointments();
+                    for(int i = 0; i<tempAppointments.size(); i++){
+                        myAppointments.add(new AAppointment(tempAppointments.get(i)));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -32,6 +39,28 @@ public class ADoctorUser extends AUser{
         }).start();
     }
 
+    /**
+     * Συνάρτηση που επιστρέφει μια λίστα με τα ραντεβού του γιατρού
+     * @param bShouldRefreshList Αν θα πρέπει να ανανεώσουμε την λίστα κάνοντας αίτημα στο API, αν ναι τότε η συνάρτηση δεν πρέπει να τρέξει από το κύριο thread
+     * @return Επιστρέφει λίστα με ραντεβού
+     */
+    public ArrayList<AAppointment> getAppointments(boolean bShouldRefreshList){
+        if(bShouldRefreshList){
+            ArrayList<FGetAppointmentResponse> tempAppointments = null;
+            try {
+                tempAppointments = StaticFunctionUtilities.getRestController().getAppointments();
+                myAppointments.clear();
+                for(int i = 0; i<tempAppointments.size(); i++){
+                    myAppointments.add(new AAppointment(tempAppointments.get(i)));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return myAppointments;
+    }
     /**
      * Συνάρτηση που επιστρέφει μια λίστα από τους ασθενείς που έχει δηλώσει ο γιατρός.
      * @param bShouldRefreshList Αν θα πρέπει να ανανεώσουμε την λίστα κάνοντας αίτημα στο API, αν ναι τότε η συνάρτηση δεν πρέπει να τρέξει από το κύριο thread

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.RequestComponent;
 import com.geoxhonapps.physio_app.RestUtilities.RestController;
@@ -29,6 +30,5 @@ public class MainActivity extends ParentActivity {
                 StaticFunctionUtilities.attemptLogin(username.getText().toString(), password.getText().toString());
             }
         });
-
     }
 }

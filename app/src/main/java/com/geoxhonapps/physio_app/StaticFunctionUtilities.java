@@ -7,6 +7,8 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.geoxhonapps.physio_app.RestUtilities.ADoctorUser;
+import com.geoxhonapps.physio_app.RestUtilities.AManagerUser;
+import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
 import com.geoxhonapps.physio_app.RestUtilities.AUser;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.RestUtilities.RestController;
@@ -33,11 +35,13 @@ public class StaticFunctionUtilities {
                     if(r.isSuccess){
                         switch(r.accountType){
                             case 0:
-                            case 2:
-                                User = new AUser(r);
+                                User = new AManagerUser(r);
                                 break;
                             case 1:
                                 User = new ADoctorUser(r);
+                                break;
+                            case 2:
+                                User = new APatientUser(r);
                                 break;
                         }
                         ContextFlowUtilities.moveTo(HomeActivity.class, false);
