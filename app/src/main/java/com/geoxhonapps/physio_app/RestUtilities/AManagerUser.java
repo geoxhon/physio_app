@@ -2,6 +2,7 @@ package com.geoxhonapps.physio_app.RestUtilities;
 
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
@@ -80,4 +81,30 @@ public class AManagerUser extends AUser{
         }
         return false;
     }
+
+    /**
+     * Συνάρτηση που δημιουργεί μια νέα παροχή για τους γιατρούς και την προσθέτει στην βάση δεδομένων.
+     * @param id Το id της παροχής, μέχρι 5 χαρακτήρες πχ EX001
+     * @param name Το όνομα της παροχής
+     * @param description Η περιγραφή της παροχής
+     * @param cost Το κόστος της παροχής
+     * @return Επιστρέφει αν η καταχώρηση ήταν επιτυχής. Αν δεν ήταν επιτυχής πρόκειται για διπλότυπο id.
+     */
+    public boolean createService(String id, String name, String description, int cost){
+        try {
+            boolean isSuccess = StaticFunctionUtilities.getRestController().createService(id, name, description, cost);
+            if(isSuccess){
+                services.add(new AService(new FGetServicesResponse(true, id, name, description, cost)));
+                return true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
 }

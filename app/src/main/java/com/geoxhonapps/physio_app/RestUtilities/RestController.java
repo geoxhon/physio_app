@@ -4,6 +4,7 @@ import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentRespons
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAvailabilityResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetCreatorResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FRestResponse;
 
@@ -126,6 +127,32 @@ public class RestController {
         JSONObject obj = new JSONObject();
         obj.put("timestamp", timestamp);
         FRestResponse r = requestComponent.Post("/api/v1/appointments/book", obj);
+        JSONObject data = new JSONObject(r.responseContent);
+        return data.getBoolean("success");
+    }
+
+    public ArrayList<FGetServicesResponse> getServices() throws IOException, JSONException{
+        FRestResponse r = requestComponent.Get("/api/v1/services");
+        JSONObject data = new JSONObject(r.responseContent);
+        ArrayList<FGetServicesResponse> outServices = new ArrayList<FGetServicesResponse>();
+        if(data.getBoolean("success")){
+            data = data.getJSONObject("triggerResults");
+            JSONArray arr = data.getJSONArray("services");
+            for(int i = 0; i<arr.length(); i++){
+                JSONObject temp = arr.getJSONObject(i);
+                outServices.add(new FGetServicesResponse(true, temp.getString("id"), temp.getString("name"), temp.getString("description"), temp.getInt("cost")));
+            }
+        }
+        return outServices;
+    }
+
+    public boolean createService(String serviceId, String name, String description, int cost) throws JSONException, IOException {
+        JSONObject obj = new JSONObject();
+        obj.put("id", serviceId);
+        obj.put("name", name);
+        obj.put("description", description);
+        obj.put("cost", cost);
+        FRestResponse r = requestComponent.Post("/api/v1/services/create", obj);
         JSONObject data = new JSONObject(r.responseContent);
         return data.getBoolean("success");
     }
