@@ -22,6 +22,7 @@ public class ADoctorUser extends AUser{
         myPatients = new ArrayList<APatient>();
         myAppointments = new ArrayList<AAppointment>();
         history = new ArrayList<ARecord>();
+
         new Thread(new Runnable() {
             @Override
             public void run() {

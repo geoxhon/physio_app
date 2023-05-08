@@ -26,6 +26,7 @@ public class AUser {
         accountType = EUserType.values()[userInfo.accountType];
         email = userInfo.email;
         SSN = userInfo.SSN;
+        services = new ArrayList<AService>();
     }
 
     /**
