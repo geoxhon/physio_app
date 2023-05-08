@@ -134,6 +134,10 @@ public class ADoctorUser extends AUser{
         return null;
     }
 
+    /**
+     * Συνάρτηση για την λήψη του ιστορικού του γιατρού
+     * @return Επιστρέφει μια λίστα με records.
+     */
     public ArrayList<ARecord> getHistory(){
         return this.history;
     }

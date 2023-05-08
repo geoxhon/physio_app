@@ -1,7 +1,12 @@
 package com.geoxhonapps.physio_app.RestUtilities;
 
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetHistoryResponse;
+import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class APatient extends AInfo{
@@ -27,6 +32,10 @@ public class APatient extends AInfo{
         return true;
     }
 
+    /**
+     * Συνάρτηση για την λήψη του ιστορικού του συγκεκριμένου ασθενή
+     * @return Επιστρέφει λίστα με records
+     */
     public ArrayList<ARecord> getPatientHistory(){
         return this.patientHistory;
     }
