@@ -3,6 +3,7 @@ package com.geoxhonapps.physio_app.RestUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetHistoryResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
@@ -15,10 +16,12 @@ import java.util.ArrayList;
 public class ADoctorUser extends AUser{
     private ArrayList<APatient> myPatients;
     private ArrayList<AAppointment> myAppointments;
+    private ArrayList<ARecord>  history;
     public ADoctorUser(FLoginResponse userInfo) {
         super(userInfo);
         myPatients = new ArrayList<APatient>();
         myAppointments = new ArrayList<AAppointment>();
+        history = new ArrayList<ARecord>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -34,6 +37,11 @@ public class ADoctorUser extends AUser{
                     ArrayList<FGetServicesResponse> tempServices = StaticFunctionUtilities.getRestController().getServices();
                     for(int i =0; i<tempServices.size();i++){
                         services.add(new AService(tempServices.get(i)));
+                    }
+                    ArrayList<FGetHistoryResponse> tempHistory = StaticFunctionUtilities.getRestController().getHistory();
+                    history = new ArrayList<ARecord>();
+                    for(FGetHistoryResponse historyResponse: tempHistory){
+                        history.add(new ARecord(historyResponse));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -123,5 +131,9 @@ public class ADoctorUser extends AUser{
             }
         }
         return null;
+    }
+
+    public ArrayList<ARecord> getHistory(){
+        return this.history;
     }
 }
