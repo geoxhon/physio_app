@@ -3,6 +3,7 @@ package com.geoxhonapps.physio_app.RestUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
@@ -29,6 +30,10 @@ public class ADoctorUser extends AUser{
                     ArrayList<FGetAppointmentResponse> tempAppointments = StaticFunctionUtilities.getRestController().getAppointments();
                     for(int i = 0; i<tempAppointments.size(); i++){
                         myAppointments.add(new AAppointment(tempAppointments.get(i)));
+                    }
+                    ArrayList<FGetServicesResponse> tempServices = StaticFunctionUtilities.getRestController().getServices();
+                    for(int i =0; i<tempServices.size();i++){
+                        services.add(new AService(tempServices.get(i)));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -111,5 +116,12 @@ public class ADoctorUser extends AUser{
         return false;
     }
 
-
+    public APatient GetPatientById(String id){
+        for(APatient patient: myPatients){
+            if(patient.getUserId() == id){
+                return patient;
+            }
+        }
+        return null;
+    }
 }
