@@ -127,7 +127,7 @@ public class ADoctorUser extends AUser{
 
     public APatient GetPatientById(String id){
         for(APatient patient: myPatients){
-            if(patient.getUserId() == id){
+            if(patient.getUserId().equals(id)){
                 return patient;
             }
         }

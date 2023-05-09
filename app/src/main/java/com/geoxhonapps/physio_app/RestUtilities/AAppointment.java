@@ -7,6 +7,7 @@ import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,13 +30,15 @@ public class AAppointment {
         if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
             ArrayList<APatient> patients = ((ADoctorUser)StaticFunctionUtilities.getUser()).getPatients(false);
             for(int i = 0; i< patients.size(); i++){
-                if(patients.get(i).getUserId() == appointmentInfo.user){
-                    associatedUser = patients.get(i);
+                System.out.println(patients.get(i).getUserId() + " ASSSSS " + appointmentInfo.user);
+                if(patients.get(i).getUserId().equals(appointmentInfo.user)){
+                    System.out.println("SUCCESS");
+                    this.associatedUser = patients.get(i);
                     break;
                 }
             }
         }else if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Patient){
-            associatedUser = ((APatientUser)StaticFunctionUtilities.getUser()).getMyDoctor();
+            this.associatedUser = ((APatientUser)StaticFunctionUtilities.getUser()).getMyDoctor();
         }
     }
 
@@ -138,5 +141,10 @@ public class AAppointment {
 
         }
         return null;
+    }
+
+    public String getGlobalDateString(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(appointmentDate);
     }
 }
