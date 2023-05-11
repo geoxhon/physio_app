@@ -4,6 +4,8 @@ import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentRespons
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAvailabilityResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetCreatorResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetHistoryResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
@@ -19,9 +21,11 @@ public class APatientUser extends AUser{
     private ArrayList<Long> bookedTimestamps;
     private ADoctor myDoctor;
     private ArrayList<AAppointment> myAppointments;
+    private ArrayList<ARecord>  history;
     public APatientUser(FLoginResponse userInfo) {
         super(userInfo);
         bookedTimestamps = new ArrayList<Long>();
+        history = new ArrayList<ARecord>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -35,6 +39,14 @@ public class APatientUser extends AUser{
                     ArrayList<FGetAppointmentResponse> tempAppointments = StaticFunctionUtilities.getRestController().getAppointments();
                     for(int i = 0; i<tempAppointments.size(); i++){
                         myAppointments.add(new AAppointment(tempAppointments.get(i)));
+                    }
+                    ArrayList<FGetServicesResponse> temp = StaticFunctionUtilities.getRestController().getServices();
+                    for(int i =0; i<temp.size();i++){
+                        services.add(new AService(temp.get(i)));
+                    }
+                    ArrayList<FGetHistoryResponse> tempHistory = StaticFunctionUtilities.getRestController().getHistory();
+                    for(FGetHistoryResponse historyResponse: tempHistory){
+                        history.add(new ARecord(historyResponse));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -70,7 +82,7 @@ public class APatientUser extends AUser{
 
     /**
      * Συνάρτηση για την λήψη διαθέσιμων ραντεβού για μια συγκεκριμένη ημερομηνία
-     * @param date Η Ημερομηνία σε String σε μορφη εεεε-ΜΜ-μμ ΩΩ:λλ:δδ
+     * @param date Η Ημερομηνία σε String σε μορφη εεεε-ΜΜ-μμ
      * @return Μια λίστα με διαθέσιμες ώρες σε μορφή date.
      */
     public ArrayList<Date> getAvailableAppointmentsForDate(String date){
@@ -107,5 +119,9 @@ public class APatientUser extends AUser{
     }
     public ADoctor getMyDoctor(){
         return myDoctor;
+    }
+
+    public ArrayList<ARecord> getHistory(){
+        return this.history;
     }
 }

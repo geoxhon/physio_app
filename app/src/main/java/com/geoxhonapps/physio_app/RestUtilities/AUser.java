@@ -26,21 +26,7 @@ public class AUser {
         accountType = EUserType.values()[userInfo.accountType];
         email = userInfo.email;
         SSN = userInfo.SSN;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ArrayList<FGetServicesResponse> temp = StaticFunctionUtilities.getRestController().getServices();
-                    for(int i =0; i<temp.size();i++){
-                        services.add(new AService(temp.get(i)));
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        services = new ArrayList<AService>();
     }
 
     /**
@@ -112,5 +98,14 @@ public class AUser {
             }
         }
         return services;
+    }
+
+    public AService getServiceById(String id){
+        for (AService service : services) {
+            if(service.getId() == id){
+                return service;
+            }
+        }
+        return null;
     }
 }

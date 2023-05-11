@@ -1,11 +1,13 @@
 package com.geoxhonapps.physio_app.RestUtilities;
 
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetHistoryResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,13 +30,15 @@ public class AAppointment {
         if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
             ArrayList<APatient> patients = ((ADoctorUser)StaticFunctionUtilities.getUser()).getPatients(false);
             for(int i = 0; i< patients.size(); i++){
-                if(patients.get(i).getUserId() == appointmentInfo.user){
-                    associatedUser = patients.get(i);
+                System.out.println(patients.get(i).getUserId() + " ASSSSS " + appointmentInfo.user);
+                if(patients.get(i).getUserId().equals(appointmentInfo.user)){
+                    System.out.println("SUCCESS");
+                    this.associatedUser = patients.get(i);
                     break;
                 }
             }
         }else if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Patient){
-            associatedUser = ((APatientUser)StaticFunctionUtilities.getUser()).getMyDoctor();
+            this.associatedUser = ((APatientUser)StaticFunctionUtilities.getUser()).getMyDoctor();
         }
     }
 
@@ -109,5 +113,38 @@ public class AAppointment {
             }
         }
         return false;
+    }
+
+    /**
+     * Συνάρτηση για την αποθήκευση και καταγραφή ενός ραντεβού στο ιστορικό.
+     * ΝΑ ΜΗΝ ΕΚΤΕΛΕΙΤΕ ΑΠΟ ΤΟ ΚΥΡΙΟ THREAD
+     * Μόνο γιατροί μπορούν να καλέσουν αυτή την συνάρτηση.
+     * @param serviceUsed Η παροχή που δόθηκε στον ασθενή
+     * @param details Επιπλέον λεπτομέρειες για το ραντεβού.
+     * @return Επιστρέφει το record που δημιουργήθηκε, σε περίπτωση που είναι null υπήρξε πρόβλημα κατά την αποθήκευση.
+     */
+    public ARecord recordAppointment(AService serviceUsed, String details){
+        if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
+            int id = 0;
+            try {
+                id = StaticFunctionUtilities.getRestController().addAppointmentToRecord(this.appointmentId, serviceUsed.getId(), details);
+                if(id != -1){
+                    this.status = EAppointmentStatus.Completed;
+                    return new ARecord(new FGetHistoryResponse(true, id, StaticFunctionUtilities.getUser().getUserId(), associatedUser.getUserId(),
+                            details, serviceUsed.getId(), appointmentDate.toString()));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
+    }
+
+    public String getGlobalDateString(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(appointmentDate);
     }
 }
