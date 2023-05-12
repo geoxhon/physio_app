@@ -22,6 +22,7 @@ import com.geoxhonapps.physio_app.RestUtilities.AAppointment;
 import com.geoxhonapps.physio_app.RestUtilities.ADoctorUser;
 import com.geoxhonapps.physio_app.RestUtilities.AManagerUser;
 import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
+import com.geoxhonapps.physio_app.RestUtilities.AUser;
 import com.geoxhonapps.physio_app.RestUtilities.EAppointmentStatus;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.activities.HomeActivity;
@@ -29,22 +30,22 @@ import com.geoxhonapps.physio_app.activities.NewAppointmentActivity;
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.EUserType;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
+import com.geoxhonapps.physio_app.activities.RecordAppointmentActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
 
 class AppointmentViewHandler {
     private AAppointment appointment;
     private View view;
-    public AppointmentViewHandler(AAppointment appointment, LinearLayout linearLayout){
+    public AppointmentViewHandler(AAppointment appointment, View view){
         this.appointment = appointment;
-        LayoutInflater scrollInflater = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            scrollInflater = (LayoutInflater) ContextFlowUtilities.getCurrentView().getSystemService(ContextFlowUtilities.getCurrentView().LAYOUT_INFLATER_SERVICE);
-            this.view = scrollInflater.inflate(R.layout.r7_card_layout, linearLayout);
+            this.view = view;
             ((TextView)this.view.findViewById(R.id.appointmentIdText)).setText("#"+appointment.getAppointmentId());
             ((TextView)this.view.findViewById(R.id.patientName)).setText(appointment.getAssociatedUser().getDisplayName());
             ((TextView)this.view.findViewById(R.id.dateText)).setText(appointment.getGlobalDateString());
@@ -61,11 +62,20 @@ class AppointmentViewHandler {
     public void prepareView(){
         if(appointment.getStatus() == EAppointmentStatus.Confirmed){
             this.view.findViewById(R.id.confirmButton).setVisibility(View.GONE);
-            this.view.findViewById(R.id.recordButton).setVisibility(View.VISIBLE);
+            if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
+                this.view.findViewById(R.id.recordButton).setVisibility(View.VISIBLE);
+            }else{
+                this.view.findViewById(R.id.recordButton).setVisibility(View.GONE);
+            }
             ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Eνεργό");
             this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#56FFB8"));
         }else if(appointment.getStatus() == EAppointmentStatus.Pending){
-            this.view.findViewById(R.id.confirmButton).setVisibility(View.VISIBLE);
+            if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
+                this.view.findViewById(R.id.confirmButton).setVisibility(View.VISIBLE);
+            }else{
+                this.view.findViewById(R.id.confirmButton).setVisibility(View.GONE);
+            }
+
             ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Eν Αναμονή");
             this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#FFDA56"));
         }else if(appointment.getStatus() == EAppointmentStatus.Cancelled){
@@ -75,6 +85,7 @@ class AppointmentViewHandler {
             ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Ακυρωμένο");
             this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#FF5656"));
         }
+        view.invalidate();
     }
     public void ASYNC_prepareView(){
         Handler handler = new Handler(Looper.getMainLooper());
@@ -82,7 +93,7 @@ class AppointmentViewHandler {
             @Override
             public void run() {
                 prepareView();
-                view.invalidate();
+
             }
         });
     }
@@ -112,6 +123,7 @@ class AppointmentViewHandler {
                     }).start();
                     break;
                 case R.id.recordButton:
+                    ContextFlowUtilities.moveTo(RecordAppointmentActivity.class, true, appointment);
                     break;
                 default:
                     break;
@@ -124,6 +136,7 @@ class AppointmentViewHandler {
 public class AppointmentFragment extends Fragment {
 
     private View rootView;
+    private ArrayList<AppointmentViewHandler> appointmentViewHandlers = new ArrayList<AppointmentViewHandler>();
     public AppointmentFragment() {
         // Required empty public constructor
     }
@@ -148,9 +161,24 @@ public class AppointmentFragment extends Fragment {
     public void populateScrollView(){
         LinearLayout linearLayout = rootView.findViewById(R.id.appointmentLinearLayout);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        ArrayList<AAppointment> appointments = ((ADoctorUser)StaticFunctionUtilities.getUser()).getAppointments(false);
-        for(AAppointment appointment: appointments){
-            new AppointmentViewHandler(appointment, linearLayout);
+        ArrayList<AAppointment> appointments = new ArrayList<AAppointment>();
+        AUser user = StaticFunctionUtilities.getUser();
+        if(user.getAccountType()==EUserType.Doctor){
+            appointments = ((ADoctorUser)user).getAppointments(false);
+        }else{
+            appointments = ((APatientUser)user).getAppointments(false);
         }
+        int index = 0;
+        linearLayout = rootView.findViewById(R.id.appointmentLinearLayout);
+        for(AAppointment appointment: appointments){
+            LayoutInflater scrollInflater = null;
+            scrollInflater = (LayoutInflater) ContextFlowUtilities.getCurrentView().getLayoutInflater();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                View view = scrollInflater.inflate(R.layout.r7_card_layout, null);
+                linearLayout.addView(view);
+                appointmentViewHandlers.add(new AppointmentViewHandler(appointment, view));
+            }
+        }
+        rootView.invalidate();
     }
 }

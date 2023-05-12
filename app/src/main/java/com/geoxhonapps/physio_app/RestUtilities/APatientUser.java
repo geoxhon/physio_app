@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 public class APatientUser extends AUser{
     private ArrayList<Long> bookedTimestamps;
     private ADoctor myDoctor;
-    private ArrayList<AAppointment> myAppointments;
+    private ArrayList<AAppointment> myAppointments = new ArrayList<AAppointment>();
     private ArrayList<ARecord>  history;
     public APatientUser(FLoginResponse userInfo) {
         super(userInfo);
