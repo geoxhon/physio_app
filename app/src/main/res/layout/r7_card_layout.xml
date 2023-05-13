@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="@dimen/_10sdp">
+    android:layout_marginVertical="@dimen/_10sdp"
+    android:layout_marginHorizontal="@dimen/_10sdp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -36,7 +37,7 @@
                         android:layout_height="wrap_content"
                         android:text="#000000"
                         android:textColor="#000000"
-                        android:textSize="@dimen/_13sdp"
+                        android:textSize="@dimen/_17sdp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -46,7 +47,7 @@
                         android:layout_gravity="start"
                         android:text="patient name"
                         android:textColor="#000000"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textSize="@dimen/_15sdp" />
 
                 </LinearLayout>
 
@@ -56,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="0.2"
-                    app:cardBackgroundColor="#56FFB8"
+                    app:cardBackgroundColor="@color/physio_green"
                     app:cardCornerRadius="@dimen/_15sdp">
 
                     <TextView
@@ -67,7 +68,7 @@
                         android:text="Ενεργό"
                         android:textAlignment="center"
                         android:textColor="#FFFFFF"
-                        android:textSize="@dimen/_10sdp"
+                        android:textSize="@dimen/_15sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/appointmentIdText"
@@ -99,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:text="Ημερομηνία:"
                         android:textColor="#000000"
-                        android:textSize="@dimen/_9sdp" />
+                        android:textSize="@dimen/_14sdp" />
 
                     <TextView
                         android:id="@+id/dateText"
@@ -107,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:text="29/11/2002 - 13:00"
                         android:textColor="#000000"
-                        android:textSize="@dimen/_9sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -124,7 +125,7 @@
                     android:layout_gravity="start"
                     android:layout_weight="0.7"
                     android:text="Επιβεβαίωση"
-                    android:backgroundTint="#56FFB8"
+                    android:backgroundTint="@color/physio_green"
                     android:textSize="@dimen/_8sdp" />
                 <Button
                     android:id="@+id/recordButton"
@@ -134,7 +135,7 @@
                     android:layout_weight="0.7"
                     android:visibility="gone"
                     android:text="Καταγραφή"
-                    android:backgroundTint="#56FFB8"
+                    android:backgroundTint="@color/physio_green"
                     android:textSize="@dimen/_8sdp" />
 
                 <Space
@@ -150,7 +151,7 @@
                     android:layout_gravity="end"
                     android:textSize="@dimen/_8sdp"
                     android:text="Ακύρωση"
-                    android:backgroundTint="#FF5656"/>
+                    android:backgroundTint="@color/physio_red"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

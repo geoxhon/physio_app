@@ -27,12 +27,13 @@
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:background="@drawable/custom_searchedittext"
         android:backgroundTint="#F6F6F6"
-        android:drawablePadding="8dp"
+        android:drawablePadding="@dimen/_5sdp"
         android:hint="Αναζήτηση"
-        android:padding="8dp"
+        android:padding="@dimen/_5sdp"
         android:textColor="@color/black"
         android:textColorHighlight="@color/cardview_dark_background"
         android:textColorHint="@color/grey_text_hint"
+        android:textSize="@dimen/_15sdp"
         app:layout_constraintTop_toTopOf="@id/textView" />
 
 
