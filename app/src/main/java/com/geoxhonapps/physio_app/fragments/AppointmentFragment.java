@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -137,7 +138,7 @@ class AppointmentViewHandler {
 }
 
 public class AppointmentFragment extends Fragment {
-
+    private String searchString = "";
     private View rootView;
     private ArrayList<AppointmentViewHandler> appointmentViewHandlers = new ArrayList<AppointmentViewHandler>();
     public AppointmentFragment() {
@@ -173,7 +174,27 @@ public class AppointmentFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                populateScrollView(editable.toString());
+                searchString = editable.toString();
+                populateScrollView(searchString);
+            }
+        });
+        SwipeRefreshLayout pullRefresh = rootView.findViewById(R.id.swiperefresh);
+        pullRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AUser user = StaticFunctionUtilities.getUser();
+                        if(user.getAccountType()==EUserType.Doctor){
+                            ((ADoctorUser)user).getAppointments(true);
+                        }else{
+                            ((APatientUser)user).getAppointments(true);
+                        }
+                        populateScrollView(searchString);
+                        pullRefresh.setRefreshing(false);
+                    }
+                }).start();
             }
         });
         return rootView;
