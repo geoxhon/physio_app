@@ -10,9 +10,12 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -145,7 +148,7 @@ public class AppointmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.rootView = inflater.inflate(R.layout.r7, container, false);
-        populateScrollView();
+        populateScrollView("");
         FloatingActionButton bottomButton = rootView.findViewById(R.id.floatingActionButton);
         if(StaticFunctionUtilities.getUser().getAccountType()!=EUserType.Patient){
             bottomButton.hide();
@@ -156,10 +159,28 @@ public class AppointmentFragment extends Fragment {
                 ContextFlowUtilities.moveTo(NewAppointmentActivity.class, true);
             }
         });
+        EditText searchBar = rootView.findViewById(R.id.search);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                populateScrollView(editable.toString());
+            }
+        });
         return rootView;
     }
-    public void populateScrollView(){
+    public void populateScrollView(String search){
         LinearLayout linearLayout = rootView.findViewById(R.id.appointmentLinearLayout);
+        linearLayout.removeAllViews();
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         ArrayList<AAppointment> appointments = new ArrayList<AAppointment>();
         AUser user = StaticFunctionUtilities.getUser();
@@ -168,14 +189,21 @@ public class AppointmentFragment extends Fragment {
         }else{
             appointments = ((APatientUser)user).getAppointments(false);
         }
-        int index = 0;
-        linearLayout = rootView.findViewById(R.id.appointmentLinearLayout);
         for(AAppointment appointment: appointments){
+            if(!search.isEmpty() && !appointment.getAssociatedUser().getDisplayName().contains(search)){
+                continue;
+            }
             LayoutInflater scrollInflater = null;
             scrollInflater = (LayoutInflater) ContextFlowUtilities.getCurrentView().getLayoutInflater();
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                // Set margins on layout params
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                layoutParams.setMargins(0, 0, 0, 24); // Set bottom margin to 16dp
                 View view = scrollInflater.inflate(R.layout.r7_card_layout, null);
-                linearLayout.addView(view);
+                linearLayout.addView(view, layoutParams);
                 appointmentViewHandlers.add(new AppointmentViewHandler(appointment, view));
             }
         }
