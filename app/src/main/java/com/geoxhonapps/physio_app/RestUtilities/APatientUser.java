@@ -12,6 +12,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
@@ -73,7 +74,7 @@ public class APatientUser extends AUser{
      * @param date Η Ημερομηνία σε String σε μορφη εεεε-ΜΜ-μμ ΩΩ:λλ:δδ
      * @return Μια λίστα με διαθέσιμες ώρες σε μορφή date.
      */
-    public ArrayList<Date> getAvailableAppointmentsForDate(String date){
+    public ArrayList<Date> getAvailableAppointmentsForDate(Calendar date){
         ArrayList<Date> outResults = new ArrayList<Date>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
