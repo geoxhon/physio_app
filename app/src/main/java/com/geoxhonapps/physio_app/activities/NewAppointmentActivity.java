@@ -23,7 +23,7 @@ public class NewAppointmentActivity extends ParentActivity {
     }
 
     public NewAppointmentActivity(FLoginResponse userInfo){
-           /APatientUser hours = new APatientUser(userInfo);
+            APatientUser hours = new APatientUser(userInfo);
             ArrayList<Date> availablehours;
 
 
@@ -33,7 +33,7 @@ public class NewAppointmentActivity extends ParentActivity {
             String month = String.valueOf(date.get(Calendar.MONTH));
             String day = String.valueOf(date.get(DAY_OF_MONTH));
 
-#
+
             availablehours = hours.getAvailableAppointmentsForDate(date);
             time.setText((CharSequence) availablehours);
     }
