@@ -2,7 +2,5 @@
     <item
         android:id="@+id/action_add_patient"
         android:title="Νέος Ασθενής" />
-    <item
-        android:id="@+id/action_add_service"
-        android:title="Νέα Παροχή" />
+
 </menu>

@@ -4,6 +4,8 @@ import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentRespons
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAvailabilityResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetCreatorResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetHistoryResponse;
+import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FRestResponse;
 
@@ -104,7 +106,8 @@ public class RestController {
         JSONObject data = new JSONObject(r.responseContent);
         if(data.getBoolean("success")) {
             data = data.getJSONObject("triggerResults");
-            return new FGetCreatorResponse(true, data.getString("displayName"), data.getString("email"), data.getString("SSN"));
+            data = data.getJSONObject("creator");
+            return new FGetCreatorResponse(true, data.getString("displayName"), data.getString("email"), data.getString("ssn"));
         }
         return new FGetCreatorResponse(false);
     }
@@ -128,5 +131,76 @@ public class RestController {
         FRestResponse r = requestComponent.Post("/api/v1/appointments/book", obj);
         JSONObject data = new JSONObject(r.responseContent);
         return data.getBoolean("success");
+    }
+
+    public ArrayList<FGetServicesResponse> getServices() throws IOException, JSONException{
+        FRestResponse r = requestComponent.Get("/api/v1/services");
+        JSONObject data = new JSONObject(r.responseContent);
+        ArrayList<FGetServicesResponse> outServices = new ArrayList<FGetServicesResponse>();
+        if(data.getBoolean("success")){
+            data = data.getJSONObject("triggerResults");
+            JSONArray arr = data.getJSONArray("services");
+            for(int i = 0; i<arr.length(); i++){
+                JSONObject temp = arr.getJSONObject(i);
+                outServices.add(new FGetServicesResponse(true, temp.getString("id"), temp.getString("name"), temp.getString("description"), temp.getInt("cost")));
+            }
+        }
+        return outServices;
+    }
+
+    public boolean createService(String serviceId, String name, String description, int cost) throws JSONException, IOException {
+        JSONObject obj = new JSONObject();
+        obj.put("id", serviceId);
+        obj.put("name", name);
+        obj.put("description", description);
+        obj.put("cost", cost);
+        FRestResponse r = requestComponent.Post("/api/v1/services/create", obj);
+        JSONObject data = new JSONObject(r.responseContent);
+        return data.getBoolean("success");
+    }
+
+    public ArrayList<FGetHistoryResponse> getHistory() throws JSONException, IOException{
+        FRestResponse r = requestComponent.Get("/api/v1/appointments/history");
+        ArrayList<FGetHistoryResponse> outResults = new ArrayList<FGetHistoryResponse>();
+        JSONObject data = new JSONObject(r.responseContent);
+        if(data.getBoolean("success")){
+            data = data.getJSONObject("triggerResults");
+            JSONArray arr = data.getJSONArray("records");
+            for(int i = 0; i<arr.length();i++){
+                data = arr.getJSONObject(i);
+                outResults.add(new FGetHistoryResponse(true, data.getInt("id"), data.getString("doctorId"), data.getString("patientId"),
+                        data.getString("details"), data.getString("serviceId"), data.getString("date")));
+            }
+        }
+        return outResults;
+    }
+    public ArrayList<FGetHistoryResponse> getUserHistory(String userId) throws JSONException, IOException{
+        FRestResponse r = requestComponent.Get("/api/v1/user/"+userId+"/history");
+        ArrayList<FGetHistoryResponse> outResults = new ArrayList<FGetHistoryResponse>();
+        JSONObject data = new JSONObject(r.responseContent);
+        if(data.getBoolean("success")){
+            data = data.getJSONObject("triggerResults");
+            JSONArray arr = data.getJSONArray("records");
+            for(int i = 0; i<arr.length();i++){
+                data = arr.getJSONObject(i);
+                outResults.add(new FGetHistoryResponse(true, data.getInt("id"), data.getString("doctorId"), data.getString("patientId"),
+                        data.getString("details"), data.getString("serviceId"), data.getString("date")));
+            }
+        }
+        return outResults;
+    }
+
+    public int addAppointmentToRecord(int appointmentId, String serviceId, String details) throws JSONException, IOException{
+        JSONObject obj = new JSONObject();
+        obj.put("serviceId", serviceId);
+        obj.put("details", details);
+        FRestResponse r = requestComponent.Post("/api/v1/appointments/"+Integer.toString(appointmentId)+"/record", obj);
+        JSONObject data = new JSONObject(r.responseContent);
+        if(data.getBoolean("success")){
+            data = data.getJSONObject("triggerResults");
+            return data.getInt("generatedId");
+        }
+        return -1;
+
     }
 }
