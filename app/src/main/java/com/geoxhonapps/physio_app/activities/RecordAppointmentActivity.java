@@ -1,5 +1,6 @@
 package com.geoxhonapps.physio_app.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -13,6 +14,8 @@ public class RecordAppointmentActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         if(ContextFlowUtilities.getPassedObject()!=null){
             selectedAppointment = (AAppointment)ContextFlowUtilities.getPassedObject();
         }
