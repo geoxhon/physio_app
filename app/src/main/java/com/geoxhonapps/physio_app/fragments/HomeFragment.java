@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.geoxhonapps.physio_app.RestUtilities.AAppointment;
+import com.geoxhonapps.physio_app.RestUtilities.ADoctorUser;
 import com.geoxhonapps.physio_app.activities.AddDoctorActivity;
 import com.geoxhonapps.physio_app.activities.AddPatientActivity;
 import com.geoxhonapps.physio_app.activities.AddServiceActivity;
@@ -37,7 +40,26 @@ public class HomeFragment extends Fragment {
         if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Patient){
             bottomButton.hide();
         }
+        CardView nextAppointmentView = rootView.findViewById(R.id.nextAppointmentCard);
+        switch(StaticFunctionUtilities.getUser().getAccountType()){
+            case Manager:
+                nextAppointmentView.setVisibility(View.GONE);
+                break;
+            case Doctor:
+                ADoctorUser doctorUser = ((ADoctorUser) StaticFunctionUtilities.getUser());
+                if(doctorUser.getNextAppointment() == null){
+                    nextAppointmentView.setVisibility(View.GONE);
+                }else{
+                    AAppointment nextAppointment = doctorUser.getNextAppointment();
+                    TextView nextAppointmentText = rootView.findViewById(R.id.nextAppointmentName);
+                    TextView nextAppointmentDate = rootView.findViewById(R.id.nextAppointmentDate);
+                    nextAppointmentText.setText(nextAppointment.getAssociatedUser().getDisplayName());
+                    nextAppointmentDate.setText(nextAppointment.getGlobalDateString());
+                }
+                break;
+            case Patient:
 
+        }
 
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override

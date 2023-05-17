@@ -182,6 +182,7 @@ public class AppointmentFragment extends Fragment {
         pullRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -191,13 +192,23 @@ public class AppointmentFragment extends Fragment {
                         }else{
                             ((APatientUser)user).getAppointments(true);
                         }
-                        populateScrollView(searchString);
+                        ASYNC_populateScrollView(searchString);
                         pullRefresh.setRefreshing(false);
                     }
                 }).start();
             }
         });
         return rootView;
+    }
+    public void ASYNC_populateScrollView(String search){
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                populateScrollView(search);
+
+            }
+        });
     }
     public void populateScrollView(String search){
         LinearLayout linearLayout = rootView.findViewById(R.id.appointmentLinearLayout);

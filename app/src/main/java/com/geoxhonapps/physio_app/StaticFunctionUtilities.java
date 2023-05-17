@@ -44,7 +44,7 @@ public class StaticFunctionUtilities {
                                 User = new APatientUser(r);
                                 break;
                         }
-                        ContextFlowUtilities.moveTo(HomeActivity.class, false);
+
                     }else{
                         ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                     }
