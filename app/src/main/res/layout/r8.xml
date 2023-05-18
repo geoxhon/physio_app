@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="#5FF199"
-tools:context=".r8">
+>
 
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
@@ -54,7 +54,6 @@ tools:context=".r8">
 
     <Button
         android:id="@+id/button"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_55sdp"
