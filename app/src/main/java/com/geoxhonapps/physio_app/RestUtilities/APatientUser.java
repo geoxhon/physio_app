@@ -1,5 +1,6 @@
 package com.geoxhonapps.physio_app.RestUtilities;
 
+import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAvailabilityResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
@@ -8,6 +9,7 @@ import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetHistoryResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
+import com.geoxhonapps.physio_app.activities.HomeActivity;
 
 import org.json.JSONException;
 
@@ -49,15 +51,34 @@ public class APatientUser extends AUser{
                     for(FGetHistoryResponse historyResponse: tempHistory){
                         history.add(new ARecord(historyResponse));
                     }
+                    ContextFlowUtilities.moveTo(HomeActivity.class, false);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                 }
             }
         }).start();
     }
 
+    /**
+     * Συνάρτηση για την λήψη του αμέσως επόμενου ραντεβού
+     * @return Επιστρέφει το ραντεβού, αν δεν υπάρχει επιστρέφει null.
+     */
+    public AAppointment getNextAppointment(){
+        AAppointment outAppointment = null;
+        Date currentDate = new Date();
+        for(AAppointment appointment: myAppointments){
+            if(outAppointment.getStatus() == EAppointmentStatus.Confirmed && currentDate.getTime()<appointment.getAppointmentDate().getTime()){
+                if(outAppointment == null){
+                    outAppointment = appointment;
+                }else if(appointment.getAppointmentDate().getTime()<outAppointment.getAppointmentDate().getTime()){
+                    outAppointment = appointment;
+                }
+            }
+        }
+        return outAppointment;
+    }
     /**
      * Συνάρτηση που επιστρέφει μια λίστα με τα ραντεβού του γιατρού
      * @param bShouldRefreshList Αν θα πρέπει να ανανεώσουμε την λίστα κάνοντας αίτημα στο API, αν ναι τότε η συνάρτηση δεν πρέπει να τρέξει από το κύριο thread
