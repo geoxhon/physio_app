@@ -3,6 +3,7 @@ package com.geoxhonapps.physio_app.activities;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -26,5 +27,11 @@ public class AddPatientActivity extends ParentActivity {
 
 
         setContentView(R.layout.r3);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        getMenuInflater().inflate(R.menu.m1, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
