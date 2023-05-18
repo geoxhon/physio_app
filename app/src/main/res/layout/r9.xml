@@ -4,6 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#56FFB8"
     tools:context=".activities.NewAppointmentActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="140dp"
+        android:layout_marginBottom="-55dp"
+        app:cardCornerRadius="60dp"
+        app:cardElevation="20dp">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="227dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:text="Νέο Ραντεβού"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="340dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="420dp"
+            android:backgroundTint="#56FFB8"
+            android:text="Αποθήκευση"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:cornerRadius="@android:dimen/notification_large_icon_width" />
+
+
+        <CalendarView
+            android:id="@+id/calendar"
+            android:layout_width="380dp"
+            android:layout_height="299dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="55dp"
+            android:clickable="true"
+            android:onClick="CalendarClick"/>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/_37828871_237527432133294_6737253933245839623_n__1_" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

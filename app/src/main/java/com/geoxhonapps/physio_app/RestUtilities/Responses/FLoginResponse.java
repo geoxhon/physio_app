@@ -23,4 +23,6 @@ public class FLoginResponse{
         this.email = email;
         this.SSN = SSN;
     }
+
+
 }

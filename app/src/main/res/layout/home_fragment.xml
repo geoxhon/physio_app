@@ -76,12 +76,6 @@
                     android:textSize="@dimen/_23sdp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/nonee"
-                    android:layout_width="@dimen/_154sdp"
-                    android:layout_height="@dimen/_154sdp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/appointmentLogo" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
