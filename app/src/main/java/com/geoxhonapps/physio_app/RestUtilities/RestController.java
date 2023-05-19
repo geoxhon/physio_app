@@ -106,7 +106,8 @@ public class RestController {
         JSONObject data = new JSONObject(r.responseContent);
         if(data.getBoolean("success")) {
             data = data.getJSONObject("triggerResults");
-            return new FGetCreatorResponse(true, data.getString("displayName"), data.getString("email"), data.getString("SSN"));
+            data = data.getJSONObject("creator");
+            return new FGetCreatorResponse(true, data.getString("displayName"), data.getString("email"), data.getString("ssn"));
         }
         return new FGetCreatorResponse(false);
     }

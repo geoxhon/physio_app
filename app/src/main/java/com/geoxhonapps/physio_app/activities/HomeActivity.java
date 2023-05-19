@@ -5,13 +5,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.cardview.widget.CardView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.geoxhonapps.physio_app.HomePagerAdapter;
 import com.geoxhonapps.physio_app.R;
+import com.geoxhonapps.physio_app.RestUtilities.AAppointment;
+import com.geoxhonapps.physio_app.RestUtilities.ADoctorUser;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -72,6 +76,7 @@ public class HomeActivity extends ParentActivity {
                 bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_manager);
                 break;
             case Doctor:
+
                 bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_doctor);
                 break;
             case Patient:

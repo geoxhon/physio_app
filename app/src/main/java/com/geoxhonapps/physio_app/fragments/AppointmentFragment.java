@@ -7,12 +7,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -22,6 +26,7 @@ import com.geoxhonapps.physio_app.RestUtilities.AAppointment;
 import com.geoxhonapps.physio_app.RestUtilities.ADoctorUser;
 import com.geoxhonapps.physio_app.RestUtilities.AManagerUser;
 import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
+import com.geoxhonapps.physio_app.RestUtilities.AUser;
 import com.geoxhonapps.physio_app.RestUtilities.EAppointmentStatus;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.activities.HomeActivity;
@@ -29,22 +34,22 @@ import com.geoxhonapps.physio_app.activities.NewAppointmentActivity;
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.EUserType;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
+import com.geoxhonapps.physio_app.activities.RecordAppointmentActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
 
 class AppointmentViewHandler {
     private AAppointment appointment;
     private View view;
-    public AppointmentViewHandler(AAppointment appointment, LinearLayout linearLayout){
+    public AppointmentViewHandler(AAppointment appointment, View view){
         this.appointment = appointment;
-        LayoutInflater scrollInflater = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            scrollInflater = (LayoutInflater) ContextFlowUtilities.getCurrentView().getSystemService(ContextFlowUtilities.getCurrentView().LAYOUT_INFLATER_SERVICE);
-            this.view = scrollInflater.inflate(R.layout.r7_card_layout, linearLayout);
+            this.view = view;
             ((TextView)this.view.findViewById(R.id.appointmentIdText)).setText("#"+appointment.getAppointmentId());
             ((TextView)this.view.findViewById(R.id.patientName)).setText(appointment.getAssociatedUser().getDisplayName());
             ((TextView)this.view.findViewById(R.id.dateText)).setText(appointment.getGlobalDateString());
@@ -61,11 +66,20 @@ class AppointmentViewHandler {
     public void prepareView(){
         if(appointment.getStatus() == EAppointmentStatus.Confirmed){
             this.view.findViewById(R.id.confirmButton).setVisibility(View.GONE);
-            this.view.findViewById(R.id.recordButton).setVisibility(View.VISIBLE);
+            if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
+                this.view.findViewById(R.id.recordButton).setVisibility(View.VISIBLE);
+            }else{
+                this.view.findViewById(R.id.recordButton).setVisibility(View.GONE);
+            }
             ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Eνεργό");
             this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#56FFB8"));
         }else if(appointment.getStatus() == EAppointmentStatus.Pending){
-            this.view.findViewById(R.id.confirmButton).setVisibility(View.VISIBLE);
+            if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
+                this.view.findViewById(R.id.confirmButton).setVisibility(View.VISIBLE);
+            }else{
+                this.view.findViewById(R.id.confirmButton).setVisibility(View.GONE);
+            }
+
             ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Eν Αναμονή");
             this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#FFDA56"));
         }else if(appointment.getStatus() == EAppointmentStatus.Cancelled){
@@ -75,6 +89,7 @@ class AppointmentViewHandler {
             ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Ακυρωμένο");
             this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#FF5656"));
         }
+        view.invalidate();
     }
     public void ASYNC_prepareView(){
         Handler handler = new Handler(Looper.getMainLooper());
@@ -82,7 +97,7 @@ class AppointmentViewHandler {
             @Override
             public void run() {
                 prepareView();
-                view.invalidate();
+
             }
         });
     }
@@ -112,6 +127,7 @@ class AppointmentViewHandler {
                     }).start();
                     break;
                 case R.id.recordButton:
+                    ContextFlowUtilities.moveTo(RecordAppointmentActivity.class, true, appointment);
                     break;
                 default:
                     break;
@@ -122,8 +138,9 @@ class AppointmentViewHandler {
 }
 
 public class AppointmentFragment extends Fragment {
-
+    private String searchString = "";
     private View rootView;
+    private ArrayList<AppointmentViewHandler> appointmentViewHandlers = new ArrayList<AppointmentViewHandler>();
     public AppointmentFragment() {
         // Required empty public constructor
     }
@@ -132,7 +149,7 @@ public class AppointmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.rootView = inflater.inflate(R.layout.r7, container, false);
-        populateScrollView();
+        populateScrollView("");
         FloatingActionButton bottomButton = rootView.findViewById(R.id.floatingActionButton);
         if(StaticFunctionUtilities.getUser().getAccountType()!=EUserType.Patient){
             bottomButton.hide();
@@ -143,14 +160,85 @@ public class AppointmentFragment extends Fragment {
                 ContextFlowUtilities.moveTo(NewAppointmentActivity.class, true);
             }
         });
+        EditText searchBar = rootView.findViewById(R.id.search);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchString = editable.toString();
+                populateScrollView(searchString);
+            }
+        });
+        SwipeRefreshLayout pullRefresh = rootView.findViewById(R.id.swiperefresh);
+        pullRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AUser user = StaticFunctionUtilities.getUser();
+                        if(user.getAccountType()==EUserType.Doctor){
+                            ((ADoctorUser)user).getAppointments(true);
+                        }else{
+                            ((APatientUser)user).getAppointments(true);
+                        }
+                        ASYNC_populateScrollView(searchString);
+                        pullRefresh.setRefreshing(false);
+                    }
+                }).start();
+            }
+        });
         return rootView;
     }
-    public void populateScrollView(){
+    public void ASYNC_populateScrollView(String search){
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                populateScrollView(search);
+
+            }
+        });
+    }
+    public void populateScrollView(String search){
         LinearLayout linearLayout = rootView.findViewById(R.id.appointmentLinearLayout);
+        linearLayout.removeAllViews();
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        ArrayList<AAppointment> appointments = ((ADoctorUser)StaticFunctionUtilities.getUser()).getAppointments(false);
-        for(AAppointment appointment: appointments){
-            new AppointmentViewHandler(appointment, linearLayout);
+        ArrayList<AAppointment> appointments = new ArrayList<AAppointment>();
+        AUser user = StaticFunctionUtilities.getUser();
+        if(user.getAccountType()==EUserType.Doctor){
+            appointments = ((ADoctorUser)user).getAppointments(false);
+        }else{
+            appointments = ((APatientUser)user).getAppointments(false);
         }
+        for(AAppointment appointment: appointments){
+            if(!search.isEmpty() && !appointment.getAssociatedUser().getDisplayName().contains(search)){
+                continue;
+            }
+            LayoutInflater scrollInflater = null;
+            scrollInflater = (LayoutInflater) ContextFlowUtilities.getCurrentView().getLayoutInflater();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                // Set margins on layout params
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                layoutParams.setMargins(0, 0, 0, 24); // Set bottom margin to 16dp
+                View view = scrollInflater.inflate(R.layout.r7_card_layout, null);
+                linearLayout.addView(view, layoutParams);
+                appointmentViewHandlers.add(new AppointmentViewHandler(appointment, view));
+            }
+        }
+        rootView.invalidate();
     }
 }

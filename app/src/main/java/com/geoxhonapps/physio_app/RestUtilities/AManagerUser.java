@@ -1,10 +1,12 @@
 package com.geoxhonapps.physio_app.RestUtilities;
 
+import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
+import com.geoxhonapps.physio_app.activities.HomeActivity;
 
 import org.json.JSONException;
 
@@ -28,10 +30,11 @@ public class AManagerUser extends AUser{
                     for(int i =0; i<temp.size();i++){
                         services.add(new AService(tempServices.get(i)));
                     }
+                    ContextFlowUtilities.moveTo(HomeActivity.class, false);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                 }
             }
         }).start();
