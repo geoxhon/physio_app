@@ -31,7 +31,8 @@ public class DynamicActivity2 extends AppCompatActivity {
 
         textView = findViewById(R.id.hours);
 
-        ArrayList<Date> listOfHours = (ArrayList<Date>) getIntent().getSerializableExtra("hoursList");
+
+        ArrayList<Date> listOfHours  = (ArrayList<Date>) getIntent().getSerializableExtra("listofhours");
 
         StringBuilder hoursText = new StringBuilder();
         for (Date hour : listOfHours) {
@@ -46,6 +47,7 @@ public class DynamicActivity2 extends AppCompatActivity {
                 thishour = selectedhour.getText().toString();
                 boolean containsHour = false;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
 
                 for (Date hour : listOfHours) {
                     String hourString = dateFormat.format(hour);

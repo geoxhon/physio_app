@@ -16,10 +16,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class NewAppointmentActivity extends ParentActivity {
-    private boolean success;
-    private String id,Name,username,email,SSN;
-    private int accountType;
-    private FLoginResponse userInfo;
     private CalendarView calendarView;
 
     protected void onCreate(Bundle savedInstanceState) {
