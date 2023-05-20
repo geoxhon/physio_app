@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.geoxhonapps.physio_app.R;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,14 +32,17 @@ public class DynamicActivity2 extends AppCompatActivity {
 
         textView = findViewById(R.id.hours);
 
-
-        ArrayList<Date> listOfHours  = (ArrayList<Date>) getIntent().getSerializableExtra("listofhours");
+        ArrayList<Date> listOfHours = (ArrayList<Date>) getIntent().getSerializableExtra("listofhours");
 
         StringBuilder hoursText = new StringBuilder();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
         for (Date hour : listOfHours) {
-            hoursText.append(hour).append("\n");
+            String formattedHour = dateFormat.format(hour);
+            hoursText.append(formattedHour).append("\n");
         }
         textView.setText(hoursText.toString());
+
         ok = findViewById(R.id.ok);
         selectedhour = findViewById(R.id.selectedhour2);
         ok.setOnClickListener(new View.OnClickListener() {
