@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class DynamicActivity2 extends AppCompatActivity {
+public class DynamicActivity2 extends ParentActivity{
     private TextView textView;
     private EditText selectedhour;
 
@@ -32,7 +32,8 @@ public class DynamicActivity2 extends AppCompatActivity {
 
         textView = findViewById(R.id.hours);
 
-        ArrayList<Date> listOfHours = (ArrayList<Date>) getIntent().getSerializableExtra("listofhours");
+        ArrayList<Date> listOfHours;
+        listOfHours = (ArrayList<Date>) getIntent().getSerializableExtra("listofhours");
 
         StringBuilder hoursText = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
