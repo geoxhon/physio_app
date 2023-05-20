@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#56FFB8"
-    tools:context=".activities.NewAppointmentActivity">
+    tools:context=".activities.NewAppointmentActivity2">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -46,9 +46,11 @@
             android:layout_width="380dp"
             android:layout_height="299dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="80dp"
+            android:background="#9E535050"
+            android:backgroundTint="#9E535050"
             android:clickable="true"
-            android:onClick="CalendarClick"/>
+            android:onClick="CalendarClick" />
 
 
     </androidx.cardview.widget.CardView>
