@@ -1,4 +1,4 @@
-package com.geoxhonapps.physio_app;
+package com.geoxhonapps.physio_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,26 +10,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.geoxhonapps.physio_app.activities.NewAppointmentActivity2;
+import com.geoxhonapps.physio_app.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class DynamicActivity extends AppCompatActivity {
+public class DynamicActivity2 extends AppCompatActivity {
     private TextView textView;
     private EditText selectedhour;
 
     private String thishour,thisSelectedhourString;
     private Button ok;
 
-    public DynamicActivity() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_2);
+        setContentView(R.layout.activity_dynamic2);
 
         textView = findViewById(R.id.hours);
 

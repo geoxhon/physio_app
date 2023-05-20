@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#56FFB8"
-    tools:context=".DynamicActivity">
+    tools:context=".activities.DynamicActivity2">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -63,4 +63,5 @@
             android:textSize="18sp"
             app:cornerRadius="20dp" />
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

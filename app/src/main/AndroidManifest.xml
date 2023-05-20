@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Physio_app"
         tools:targetApi="31">
         <activity
+            android:name=".activities.DynamicActivity2"
+            android:exported="false" />
+        <activity
             android:name=".activities.RecordAppointmentActivity"
             android:exported="false">
             <meta-data
@@ -64,6 +67,7 @@
             android:name=".activities.HomeActivity"
             android:exported="true"
             android:label="Home" />
+        <activity android:name="com.geoxhonapps.physio_app.activities.DynamicActivity2" />
     </application>
 
 </manifest>
