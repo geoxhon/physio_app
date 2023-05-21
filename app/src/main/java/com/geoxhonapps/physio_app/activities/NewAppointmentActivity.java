@@ -2,6 +2,8 @@ package com.geoxhonapps.physio_app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
@@ -16,11 +18,13 @@ import java.util.Date;
 
 public class NewAppointmentActivity extends ParentActivity {
     private CalendarView calendarView;
+    private Button button1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r9);
         CalendarView calendarView = findViewById(R.id.calendar);
+        button1 = findViewById(R.id.btn);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -33,6 +37,13 @@ public class NewAppointmentActivity extends ParentActivity {
                 } else {
                     openActivity2(listOfHours);
                 }
+
+                button1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Δεν γίνεται αποθήκευση γιατί δεν επέλεξες ημερομηνία!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

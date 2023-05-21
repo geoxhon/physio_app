@@ -27,7 +27,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/apothikeysi2"
+            android:id="@+id/btn"
             android:layout_width="340dp"
             android:layout_height="70dp"
             android:layout_marginLeft="35dp"
