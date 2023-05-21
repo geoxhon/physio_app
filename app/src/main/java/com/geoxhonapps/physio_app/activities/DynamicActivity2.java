@@ -1,7 +1,5 @@
 package com.geoxhonapps.physio_app.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.widget.Toast;
 
 import com.geoxhonapps.physio_app.R;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,8 +29,10 @@ public class DynamicActivity2 extends ParentActivity{
 
         textView = findViewById(R.id.hours);
 
+        Intent intent = getIntent();
+
         ArrayList<Date> listOfHours;
-        listOfHours = (ArrayList<Date>) getIntent().getSerializableExtra("listofhours");
+        listOfHours = (ArrayList<Date>) intent.getSerializableExtra("listofhours");
 
         StringBuilder hoursText = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
@@ -67,7 +66,7 @@ public class DynamicActivity2 extends ParentActivity{
                 } else {
                     Toast.makeText(getApplicationContext(), "Δεν υπάρχει αυτή η ώρα", Toast.LENGTH_LONG).show();
                 }
-            };
+            }
         });
     }
     public void openActivity3(String thisSelectedhourString ) {

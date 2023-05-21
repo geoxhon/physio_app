@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
-import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
 import java.util.ArrayList;
@@ -40,8 +39,8 @@ public class NewAppointmentActivity extends ParentActivity {
 
         public void openActivity2(ArrayList<Date> listOfHours) {
             Intent intent = new Intent(this, DynamicActivity2.class);
-            startActivity(intent);
             intent.putExtra("listofhours", listOfHours);
+            startActivity(intent);
         }
 }
 
