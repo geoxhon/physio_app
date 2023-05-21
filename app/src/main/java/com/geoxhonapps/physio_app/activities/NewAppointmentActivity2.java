@@ -1,10 +1,9 @@
 package com.geoxhonapps.physio_app.activities;
 
 import android.os.Bundle;
-import android.widget.CalendarView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
@@ -14,13 +13,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 public class NewAppointmentActivity2 extends ParentActivity {
-
+private Button btn;
+private boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        boolean flag = false;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_3);
+        btn = findViewById(R.id.apothikeysi2);
         APatientUser user = (APatientUser) StaticFunctionUtilities.getUser();
         String thisSelectedhourString = (String) getIntent().getSerializableExtra("thiselectedhour");
         SimpleDateFormat hourFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -32,8 +31,11 @@ public class NewAppointmentActivity2 extends ParentActivity {
             return;
         }
         flag = user.bookAppointment(selectedHour);
-        if (flag) {
-            Toast.makeText(getApplicationContext(), "Αποθηκεύτηκε το ραντεβού σας.Σας περιμένουμε!", Toast.LENGTH_LONG).show();
-        }
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
