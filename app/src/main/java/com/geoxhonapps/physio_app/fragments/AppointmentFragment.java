@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.geoxhonapps.physio_app.ContextFlowUtilities;
@@ -235,9 +236,11 @@ public class AppointmentFragment extends Fragment {
                 );
                 layoutParams.setMargins(0, 0, 0, 24); // Set bottom margin to 16dp
                 View view = scrollInflater.inflate(R.layout.r7_card_layout, null);
-                linearLayout.addView(view, layoutParams);
+                view.setPadding(0,0,0, 20);
+                linearLayout.addView(view);
                 appointmentViewHandlers.add(new AppointmentViewHandler(appointment, view));
             }
+
         }
         rootView.invalidate();
     }
