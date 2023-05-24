@@ -91,7 +91,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/onoma"
+                    android:id="@+id/leptomeries"
                     android:layout_width="@dimen/_280sdp"
                     android:layout_height="@dimen/_50sdp"
                     android:layout_gravity="center_horizontal"
