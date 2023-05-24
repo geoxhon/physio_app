@@ -30,9 +30,7 @@ public class AAppointment {
         if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
             ArrayList<APatient> patients = ((ADoctorUser)StaticFunctionUtilities.getUser()).getPatients(false);
             for(int i = 0; i< patients.size(); i++){
-                System.out.println(patients.get(i).getUserId() + " ASSSSS " + appointmentInfo.user);
                 if(patients.get(i).getUserId().equals(appointmentInfo.user)){
-                    System.out.println("SUCCESS");
                     this.associatedUser = patients.get(i);
                     break;
                 }
