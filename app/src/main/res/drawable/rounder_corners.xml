@@ -4,6 +4,6 @@
     android:shape="rectangle">
     <stroke
         android:width="3dp"
-        android:color="@color/purple"/>
+        android:color="@color/physio_green" />
     <corners android:radius="15dp"/>
 </shape>
