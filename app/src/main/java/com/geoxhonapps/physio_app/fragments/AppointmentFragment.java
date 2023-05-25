@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -47,48 +49,65 @@ import java.util.ArrayList;
 class AppointmentViewHandler {
     private AAppointment appointment;
     private View view;
+    private Button confirmButton;
+    private Button cancelButton;
+    private Button recordButton;
+    private TextView appointmentStatusText;
+    private CardView statusCardView;
     public AppointmentViewHandler(AAppointment appointment, View view){
         this.appointment = appointment;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            this.view = view;
-            ((TextView)this.view.findViewById(R.id.appointmentIdText)).setText("#"+appointment.getAppointmentId());
-            ((TextView)this.view.findViewById(R.id.patientName)).setText(appointment.getAssociatedUser().getDisplayName());
-            ((TextView)this.view.findViewById(R.id.dateText)).setText(appointment.getGlobalDateString());
-            prepareView();
-            this.view.findViewById(R.id.confirmButton).setOnClickListener(buttonHandler);
-            this.view.findViewById(R.id.cancelButton).setOnClickListener(buttonHandler);
-            this.view.findViewById(R.id.recordButton).setOnClickListener(buttonHandler);
-        }
+        this.view = view;
+        //Φόρτωσε όλα τα στοιχεία απο το δοσμένο view
+        ((TextView)this.view.findViewById(R.id.appointmentIdText)).setText("#"+appointment.getAppointmentId());
+        ((TextView)this.view.findViewById(R.id.patientName)).setText(appointment.getAssociatedUser().getDisplayName());
+        ((TextView)this.view.findViewById(R.id.dateText)).setText(appointment.getGlobalDateString());
+        this.confirmButton = this.view.findViewById(R.id.confirmButton);
+        this.cancelButton = this.view.findViewById(R.id.cancelButton);
+        this.recordButton = this.view.findViewById(R.id.recordButton);
+        this.appointmentStatusText = this.view.findViewById(R.id.appointmentStatus);
+        this.statusCardView = this.view.findViewById(R.id.statusCardView);
+        prepareView();
+        confirmButton.setOnClickListener(buttonHandler);
+        cancelButton.setOnClickListener(buttonHandler);
+        recordButton.setOnClickListener(buttonHandler);
+
     }
 
     public View getView() {
         return view;
     }
+
+    /**
+     * Σύναρτηση που διαμορφώνει το view ανάλογα με το status του ραντεβού
+     */
     public void prepareView(){
         if(appointment.getStatus() == EAppointmentStatus.Confirmed){
-            this.view.findViewById(R.id.confirmButton).setVisibility(View.GONE);
+            //Αν το ραντεβού είναι confirmed, κρύψε το confirm button
+            confirmButton.setVisibility(View.GONE);
+            //Αν ο χρήστης είναι γιατρός, δείξε το record button.
             if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
-                this.view.findViewById(R.id.recordButton).setVisibility(View.VISIBLE);
+                recordButton.setVisibility(View.VISIBLE);
             }else{
-                this.view.findViewById(R.id.recordButton).setVisibility(View.GONE);
+                recordButton.setVisibility(View.GONE);
             }
-            ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Eνεργό");
-            this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#56FFB8"));
+            appointmentStatusText.setText("Eνεργό");
+            statusCardView.setBackgroundColor(Color.parseColor("#56FFB8"));
         }else if(appointment.getStatus() == EAppointmentStatus.Pending){
+            //Αν το ραντεβού είναι pending, δείξε το confirm button εφόσον ο χρήστης είναι γιατρός
             if(StaticFunctionUtilities.getUser().getAccountType() == EUserType.Doctor){
-                this.view.findViewById(R.id.confirmButton).setVisibility(View.VISIBLE);
+                confirmButton.setVisibility(View.VISIBLE);
             }else{
-                this.view.findViewById(R.id.confirmButton).setVisibility(View.GONE);
+                confirmButton.setVisibility(View.GONE);
             }
-
-            ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Eν Αναμονή");
-            this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#FFDA56"));
+            appointmentStatusText.setText("Eν Αναμονή");
+            statusCardView.setBackgroundColor(Color.parseColor("#FFDA56"));
         }else if(appointment.getStatus() == EAppointmentStatus.Cancelled){
-            this.view.findViewById(R.id.confirmButton).setVisibility(View.GONE);
-            this.view.findViewById(R.id.cancelButton).setVisibility(View.GONE);
-            this.view.findViewById(R.id.recordButton).setVisibility(View.GONE);
-            ((TextView)this.view.findViewById(R.id.appointmentStatus)).setText("Ακυρωμένο");
-            this.view.findViewById(R.id.statusCardView).setBackgroundColor(Color.parseColor("#FF5656"));
+            //Αν το ραντεβού είναι cancelled, κρύψε όλα τα κουμπιά
+            confirmButton.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.GONE);
+            recordButton.setVisibility(View.GONE);
+            appointmentStatusText.setText("Ακυρωμένο");
+            statusCardView.setBackgroundColor(Color.parseColor("#FF5656"));
         }
         view.invalidate();
     }
@@ -105,7 +124,7 @@ class AppointmentViewHandler {
     // Create an anonymous implementation of OnClickListener
     private View.OnClickListener buttonHandler = new View.OnClickListener() {
         public void onClick(View v) {
-            switch (v.getId() /*to get clicked view id**/) {
+            switch (v.getId() ) {
                 case R.id.confirmButton:
                     new Thread(new Runnable() {
                         @Override
@@ -211,36 +230,39 @@ public class AppointmentFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * Συνάρτηση για την φόρτωση των ραντεβού δυναμικά στο scroll view
+     * @param search Αναζήτηση με βάση το όνομα του ασθενή
+     */
     public void populateScrollView(String search){
         LinearLayout linearLayout = rootView.findViewById(R.id.appointmentLinearLayout);
-        linearLayout.removeAllViews();
+        linearLayout.removeAllViews();//Καθάρισε προηγούμενα view
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         ArrayList<AAppointment> appointments = new ArrayList<AAppointment>();
+        //Πάρε την λίστα με τα ραντεβού
         AUser user = StaticFunctionUtilities.getUser();
         if(user.getAccountType()==EUserType.Doctor){
             appointments = ((ADoctorUser)user).getAppointments(false);
         }else{
             appointments = ((APatientUser)user).getAppointments(false);
         }
+        LayoutInflater scrollInflater = null;
+        scrollInflater = (LayoutInflater) ContextFlowUtilities.getCurrentView().getLayoutInflater();
+        //Για κάθε ραντεβού
         for(AAppointment appointment: appointments){
+            //Αν χρησιμοποιειται η αναζήτηση.
             if(!search.isEmpty() && !appointment.getAssociatedUser().getDisplayName().contains(search)){
                 continue;
             }
-            LayoutInflater scrollInflater = null;
-            scrollInflater = (LayoutInflater) ContextFlowUtilities.getCurrentView().getLayoutInflater();
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                // Set margins on layout params
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                layoutParams.setMargins(0, 0, 0, 24); // Set bottom margin to 16dp
+                //Δημιουργεία του νέου view
                 View view = scrollInflater.inflate(R.layout.r7_card_layout, null);
                 view.setPadding(0,0,0, 20);
                 linearLayout.addView(view);
+                //Δίνουμε το view σε ένα handler για την διαχειρηση του
                 appointmentViewHandlers.add(new AppointmentViewHandler(appointment, view));
             }
-
         }
         rootView.invalidate();
     }
