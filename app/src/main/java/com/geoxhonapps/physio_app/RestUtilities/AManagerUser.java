@@ -27,7 +27,7 @@ public class AManagerUser extends AUser{
                         myDoctors.add(new ADoctor(temp.get(i)));
                     }
                     ArrayList<FGetServicesResponse> tempServices = StaticFunctionUtilities.getRestController().getServices();
-                    for(int i =0; i<temp.size();i++){
+                    for(int i =0; i<tempServices.size();i++){
                         services.add(new AService(tempServices.get(i)));
                     }
                     ContextFlowUtilities.moveTo(HomeActivity.class, false);
