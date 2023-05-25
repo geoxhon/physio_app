@@ -28,6 +28,15 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity
+            android:name=".activities.NewAppointmentActivity2"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <activity
             android:name=".activities.AddServiceActivity"
             android:exported="false">
@@ -64,6 +73,7 @@
             android:name=".activities.HomeActivity"
             android:exported="true"
             android:label="Home" />
+        <activity android:name="com.geoxhonapps.physio_app.activities.DynamicActivity2" />
     </application>
 
 </manifest>

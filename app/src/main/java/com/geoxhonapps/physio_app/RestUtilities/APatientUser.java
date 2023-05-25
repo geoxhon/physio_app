@@ -3,7 +3,6 @@ package com.geoxhonapps.physio_app.RestUtilities;
 import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAvailabilityResponse;
-import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetChildrenResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetCreatorResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetHistoryResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
@@ -18,7 +17,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
-import java.sql.Timestamp;
+
 public class APatientUser extends AUser{
     private ArrayList<Long> bookedTimestamps;
     private ADoctor myDoctor;
@@ -103,6 +102,7 @@ public class APatientUser extends AUser{
 
     /**
      * Συνάρτηση για την λήψη διαθέσιμων ραντεβού για μια συγκεκριμένη ημερομηνία
+     *
      * @param date Η Ημερομηνία σε String σε μορφη εεεε-ΜΜ-μμ
      * @return Μια λίστα με διαθέσιμες ώρες σε μορφή date.
      */

@@ -1,4 +1,5 @@
 package com.geoxhonapps.physio_app.RestUtilities;
+
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAvailabilityResponse;
@@ -9,12 +10,12 @@ import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FRestResponse;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 public class RestController {
     private String userId;
     private String username;
@@ -69,7 +70,7 @@ public class RestController {
         JSONObject data = new JSONObject(r.responseContent);
         if(data.getBoolean("success")) {
             data = data.getJSONObject("triggerResults");
-            return new FCreateUserResponse(true, data.getString("userId"), data.getString("createdAt"), data.getInt("accountType"));
+            return new FCreateUserResponse(true, data.getString("id"), data.getString("createdAt"), data.getInt("accountType"));
         }
         return new FCreateUserResponse(false);
     }
@@ -202,5 +203,11 @@ public class RestController {
         }
         return -1;
 
+    }
+
+    public boolean deleteUser(String userId) throws IOException, JSONException {
+        FRestResponse r = requestComponent.Delete("/api/v1/user/"+userId);
+        JSONObject data = new JSONObject(r.responseContent);
+        return data.getBoolean("success");
     }
 }

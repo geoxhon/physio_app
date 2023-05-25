@@ -89,6 +89,20 @@ public class RequestComponent {
         return new FRestResponse(http.getResponseCode(), getResponseContent(http), http.getHeaderFields());
     }
 
+    public FRestResponse Delete(String endpoint) throws IOException {
+        URL url = new URL(baseUrl+endpoint);
+        HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+        http.setRequestMethod("DELETE");
+        http.setDoOutput(false);
+
+        if(isAuthenticated) {
+            http.setRequestProperty("Cookie", authCookie);
+        }
+
+        return new FRestResponse(http.getResponseCode(), getResponseContent(http), http.getHeaderFields());
+    }
+
     public FRestResponse Put(String endpoint, JSONObject args) throws IOException {
         URL url = new URL(baseUrl+endpoint);
         HttpURLConnection http = (HttpURLConnection)url.openConnection();
