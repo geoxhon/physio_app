@@ -38,12 +38,23 @@ public class AddServiceActivity extends ParentActivity implements View.OnClickLi
                 String c4=costtext.getText().toString();
                 int costasnum=Integer.valueOf(c4);
 
-                ((AManagerUser) StaticFunctionUtilities.getUser()).createService(c1,c2,c3,costasnum);
-                codetext.setText(" ");
-                nametext.setText(" ");
-                desctext.setText(" ");
-                costtext.setText(" ");
-                Toast.makeText(getApplicationContext(),"Η υπηρεσία δημιουργήθηκε με επιτυχία",Toast.LENGTH_LONG).show();
+                if (c1.length()!=5){
+                    Toast.makeText(getApplicationContext(),"Ο κωδικός της υπηρεσίας πρέπει υποχρεωτικά να αποτελείται από 5 χαρακτήρες",Toast.LENGTH_LONG).show();
+                } else if (costasnum<0) {
+                    Toast.makeText(getApplicationContext(),"H τιμή της υπηρεσίας δεν μπορεί να είναι αρνητική",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if (((AManagerUser) StaticFunctionUtilities.getUser()).createService(c1,c2,c3,costasnum)){
+                        ((AManagerUser) StaticFunctionUtilities.getUser()).createService(c1,c2,c3,costasnum);
+                        codetext.setText(" ");
+                        nametext.setText(" ");
+                        desctext.setText(" ");
+                        costtext.setText(" ");
+                        Toast.makeText(getApplicationContext(),"Η υπηρεσία δημιουργήθηκε με επιτυχία",Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
             }
         });
     }
