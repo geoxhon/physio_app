@@ -88,7 +88,19 @@ public class AManagerUser extends AUser{
         }
         return false;
     }
-
+    public boolean deleteDoctor(ADoctor doctor){
+        try {
+            if(StaticFunctionUtilities.getRestController().deleteUser(doctor.getUserId())){
+                myDoctors.remove(doctor);
+                return true;
+            }
+        } catch (IOException e) {
+            return false;
+        } catch (JSONException e) {
+            return false;
+        }
+        return false;
+    }
     /**
      * Συνάρτηση που δημιουργεί μια νέα παροχή για τους γιατρούς και την προσθέτει στην βάση δεδομένων.
      * @param id Το id της παροχής, μέχρι 5 χαρακτήρες πχ EX001

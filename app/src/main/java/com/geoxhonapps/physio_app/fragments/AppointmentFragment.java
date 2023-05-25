@@ -160,6 +160,9 @@ class AppointmentViewHandler {
 public class AppointmentFragment extends Fragment {
     private String searchString = "";
     private View rootView;
+    private TextView allText;
+    private TextView pendingText;
+    private TextView confirmedText;
     private ArrayList<AppointmentViewHandler> appointmentViewHandlers = new ArrayList<AppointmentViewHandler>();
     public AppointmentFragment() {
         // Required empty public constructor
@@ -180,6 +183,12 @@ public class AppointmentFragment extends Fragment {
                 ContextFlowUtilities.moveTo(NewAppointmentActivity.class, true);
             }
         });
+        allText = rootView.findViewById(R.id.allText);
+        pendingText = rootView.findViewById(R.id.pendingText);
+        confirmedText = rootView.findViewById(R.id.confirmedText);
+        allText.setOnClickListener(sortButtonHandler);
+        pendingText.setOnClickListener(sortButtonHandler);
+        confirmedText.setOnClickListener(sortButtonHandler);
         EditText searchBar = rootView.findViewById(R.id.search);
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -266,4 +275,27 @@ public class AppointmentFragment extends Fragment {
         }
         rootView.invalidate();
     }
+    private View.OnClickListener sortButtonHandler = new View.OnClickListener() {
+        public void onClick(View v) {
+            switch (v.getId() ) {
+                case R.id.allText:
+                    v.setBackgroundColor(getResources().getColor(R.color.physio_green));
+                    pendingText.setBackgroundColor(Color.parseColor("#ffffff"));
+                    confirmedText.setBackgroundColor(Color.parseColor("#ffffff"));
+                    break;
+                case R.id.pendingText:
+                    v.setBackgroundColor(getResources().getColor(R.color.physio_green));
+                    allText.setBackgroundColor(Color.parseColor("#ffffff"));
+                    confirmedText.setBackgroundColor(Color.parseColor("#ffffff"));
+                    break;
+                case R.id.confirmedText:
+                    v.setBackgroundColor(getResources().getColor(R.color.physio_green));
+                    pendingText.setBackgroundColor(Color.parseColor("#ffffff"));
+                    allText.setBackgroundColor(Color.parseColor("#ffffff"));
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

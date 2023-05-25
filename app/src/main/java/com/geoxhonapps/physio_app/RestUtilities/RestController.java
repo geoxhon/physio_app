@@ -204,4 +204,10 @@ public class RestController {
         return -1;
 
     }
+
+    public boolean deleteUser(String userId) throws IOException, JSONException {
+        FRestResponse r = requestComponent.Delete("/api/v1/user/"+userId);
+        JSONObject data = new JSONObject(r.responseContent);
+        return data.getBoolean("success");
+    }
 }

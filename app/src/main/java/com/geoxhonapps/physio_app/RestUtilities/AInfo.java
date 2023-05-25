@@ -49,4 +49,8 @@ public class AInfo {
     public String getSSN() {
         return SSN;
     }
+
+    public boolean deleteUser(){
+        return true;
+    }
 }
