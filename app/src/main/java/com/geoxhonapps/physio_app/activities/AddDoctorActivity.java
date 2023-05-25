@@ -20,10 +20,10 @@ public class AddDoctorActivity extends ParentActivity {
         setContentView(R.layout.r1);
         Button button =  findViewById(R.id.SaveButton);
 
-
+        getSupportActionBar().hide();
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                getSupportActionBar().hide();
+
                 boolean alldata = true;
 
                 TextInputEditText TextInput = findViewById(R.id.NameText);
