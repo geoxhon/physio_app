@@ -163,6 +163,7 @@ public class AppointmentFragment extends Fragment {
     private TextView allText;
     private TextView pendingText;
     private TextView confirmedText;
+    private EAppointmentStatus statusToFilter = EAppointmentStatus.MAX;
     private ArrayList<AppointmentViewHandler> appointmentViewHandlers = new ArrayList<AppointmentViewHandler>();
     public AppointmentFragment() {
         // Required empty public constructor
@@ -172,7 +173,7 @@ public class AppointmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.rootView = inflater.inflate(R.layout.r7, container, false);
-        populateScrollView("");
+        populateScrollView("", statusToFilter);
         FloatingActionButton bottomButton = rootView.findViewById(R.id.floatingActionButton);
         if(StaticFunctionUtilities.getUser().getAccountType()!=EUserType.Patient){
             bottomButton.hide();
@@ -204,7 +205,7 @@ public class AppointmentFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 searchString = editable.toString();
-                populateScrollView(searchString);
+                populateScrollView(searchString, statusToFilter);
             }
         });
         SwipeRefreshLayout pullRefresh = rootView.findViewById(R.id.swiperefresh);
@@ -221,7 +222,7 @@ public class AppointmentFragment extends Fragment {
                         }else{
                             ((APatientUser)user).getAppointments(true);
                         }
-                        ASYNC_populateScrollView(searchString);
+                        ASYNC_populateScrollView(searchString, statusToFilter);
                         pullRefresh.setRefreshing(false);
                     }
                 }).start();
@@ -229,12 +230,12 @@ public class AppointmentFragment extends Fragment {
         });
         return rootView;
     }
-    public void ASYNC_populateScrollView(String search){
+    public void ASYNC_populateScrollView(String search, EAppointmentStatus filter){
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
-                populateScrollView(search);
+                populateScrollView(search, filter);
 
             }
         });
@@ -244,7 +245,7 @@ public class AppointmentFragment extends Fragment {
      * Συνάρτηση για την φόρτωση των ραντεβού δυναμικά στο scroll view
      * @param search Αναζήτηση με βάση το όνομα του ασθενή
      */
-    public void populateScrollView(String search){
+    public void populateScrollView(String search, EAppointmentStatus statusFilter){
         LinearLayout linearLayout = rootView.findViewById(R.id.appointmentLinearLayout);
         linearLayout.removeAllViews();//Καθάρισε προηγούμενα view
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -261,7 +262,7 @@ public class AppointmentFragment extends Fragment {
         //Για κάθε ραντεβού
         for(AAppointment appointment: appointments){
             //Αν χρησιμοποιειται η αναζήτηση.
-            if(!search.isEmpty() && !appointment.getAssociatedUser().getDisplayName().contains(search)){
+            if((!search.isEmpty() && !appointment.getAssociatedUser().getDisplayName().contains(search)) || (statusFilter != EAppointmentStatus.MAX && statusFilter != appointment.getStatus())){
                 continue;
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -282,20 +283,25 @@ public class AppointmentFragment extends Fragment {
                     v.setBackgroundColor(getResources().getColor(R.color.physio_green));
                     pendingText.setBackgroundColor(Color.parseColor("#ffffff"));
                     confirmedText.setBackgroundColor(Color.parseColor("#ffffff"));
+                    statusToFilter = EAppointmentStatus.MAX;
                     break;
                 case R.id.pendingText:
                     v.setBackgroundColor(getResources().getColor(R.color.physio_green));
                     allText.setBackgroundColor(Color.parseColor("#ffffff"));
                     confirmedText.setBackgroundColor(Color.parseColor("#ffffff"));
+                    statusToFilter = EAppointmentStatus.Pending;
                     break;
                 case R.id.confirmedText:
+                    statusToFilter = EAppointmentStatus.Confirmed;
                     v.setBackgroundColor(getResources().getColor(R.color.physio_green));
                     pendingText.setBackgroundColor(Color.parseColor("#ffffff"));
                     allText.setBackgroundColor(Color.parseColor("#ffffff"));
+
                     break;
                 default:
                     break;
             }
+            populateScrollView(searchString, statusToFilter);
         }
     };
 }
