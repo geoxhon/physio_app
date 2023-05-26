@@ -22,7 +22,6 @@ public class AddServiceActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r2);
         btn=findViewById(R.id.r2_save_btn);
-        int costasnum=0;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,19 +34,15 @@ public class AddServiceActivity extends ParentActivity {
                 String c3=desctext.getText().toString();
                 EditText costtext= findViewById(R.id.r2_cost_tv);
                 String c4=costtext.getText().toString();
-                if (!costtext.equals("")){
                     costasnum=Integer.valueOf(c4);
-                }
+
 
                 if (c1.length()!=5){
                     Toast.makeText(getApplicationContext(),"Ο κωδικός της υπηρεσίας πρέπει υποχρεωτικά να αποτελείται από 5 χαρακτήρες",Toast.LENGTH_LONG).show();
                 } else if (costasnum<0) {
                     Toast.makeText(getApplicationContext(),"H τιμή της υπηρεσίας δεν μπορεί να είναι αρνητική",Toast.LENGTH_LONG).show();
-                } else if (codetext.equals(" ")|nametext.equals(" ")|desctext.equals(" ")|costtext.equals(" ")) {
-                    Toast.makeText(getApplicationContext(),"Πρέπει να συμπληρωθούν όλα τα πεδία",Toast.LENGTH_LONG).show();
                 } else{
                     if (((AManagerUser) StaticFunctionUtilities.getUser()).createService(c1,c2,c3,costasnum)){
-                        ((AManagerUser) StaticFunctionUtilities.getUser()).createService(c1,c2,c3,costasnum);
                         codetext.setText(" ");
                         nametext.setText(" ");
                         desctext.setText(" ");
