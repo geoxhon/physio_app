@@ -9,13 +9,14 @@ import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class NewAppointmentActivity2 extends ParentActivity {
 private Button button;
 private boolean flag;
+
+private  Date thiselectedHour;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,16 +24,13 @@ private boolean flag;
         button = findViewById(R.id.btn2);
 
         APatientUser user = (APatientUser) StaticFunctionUtilities.getUser();
-        String thisSelectedhourString = (String) getIntent().getSerializableExtra("thiselectedhour");
-        SimpleDateFormat hourFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date selectedHour;
-        try {
-            selectedHour = hourFormat.parse(thisSelectedhourString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return;
-        }
-        flag = false;
+
+        Date thiselectedate = (Date) getIntent().getSerializableExtra("thiselectedate");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = dateFormat.format(thiselectedate);
+        Toast.makeText(getApplicationContext(), dateString, Toast.LENGTH_LONG).show();
+
+       flag = user.bookAppointment(thiselectedate);
 
        button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -26,46 +26,13 @@
             android:textSize="27sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/selectedhour2"
-            android:layout_width="274dp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="500dp"
-            android:background="@drawable/custom_edittext"
-            android:backgroundTint="#F6F6F6"
-            android:drawablePadding="8dp"
-            android:hint="Γράψε ώρα σε μορφή HH:MM"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/grey_text_hint" />
-
-        <TextView
-            android:id="@+id/hours"
-            android:layout_width="242dp"
-            android:layout_height="355dp"
-            android:layout_marginLeft="80dp"
-            android:layout_marginTop="100dp"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/ok"
-            style="italic"
-            android:layout_width="124dp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="590dp"
-            android:backgroundTint="#56FFB8"
-            android:fontFamily="sans-serif"
-            android:text="OK"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="italic"
-            app:cornerRadius="20dp" />
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="213dp"
+            android:layout_height="567dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="90dp"
+            android:orientation="vertical"></LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

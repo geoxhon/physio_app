@@ -4,74 +4,80 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.geoxhonapps.physio_app.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class DynamicActivity2 extends ParentActivity{
-    private TextView textView;
-    private EditText selectedhour;
+public class DynamicActivity2 extends ParentActivity {
+    private String formattedHour, selectedHour;
+    private List<String> formattedHours = new ArrayList<>();
 
-    private String thishour,thisSelectedhourString;
-    private Button ok;
-
+    private Date thiselectedate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic2);
 
-        textView = findViewById(R.id.hours);
-
         Intent intent = getIntent();
 
         ArrayList<Date> listOfHours;
         listOfHours = (ArrayList<Date>) intent.getSerializableExtra("listofhours");
 
-        StringBuilder hoursText = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
 
         for (Date hour : listOfHours) {
-            String formattedHour = dateFormat.format(hour);
-            hoursText.append(formattedHour).append("\n");
+            formattedHour = hourFormat.format(hour);
+            formattedHours.add(formattedHour);
         }
-        textView.setText(hoursText.toString());
 
-        ok = findViewById(R.id.ok);
-        selectedhour = findViewById(R.id.selectedhour2);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                thishour = selectedhour.getText().toString();
-                boolean containsHour = false;
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        LinearLayout buttonContainer = findViewById(R.id.buttonContainer);
 
+       /* for (String hour : formattedHours) {
+            Button button = new Button(this);
+            button.setText(hour);
 
-                for (Date hour : listOfHours) {
-                    String hourString = dateFormat.format(hour);
-                    if (thishour.equals(hourString)) {
-                        containsHour = true;
-                        thisSelectedhourString = hourString;
-                        break;
-                    }
+            button.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    selectedHour = hour;
+                    //openActivity3(selectedHour,count,thiselectedDate2);
+                    openActivity3(parsedDate);
                 }
-                if (containsHour) {
-                    openActivity3(thisSelectedhourString);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Δεν υπάρχει αυτή η ώρα", Toast.LENGTH_LONG).show();
+            });
+            buttonContainer.addView(button);
+        }
+
+        */
+
+        for (int i = 0; i < formattedHours.size(); i++) {
+            final String hour = formattedHours.get(i);
+            Button button = new Button(this);
+            button.setText(hour);
+            button.setTag(i); // Set a unique tag for each button
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = (int) v.getTag(); // Get the position from the button's tag
+                    //selectedHour = formattedHours.get(position); // Use the position to retrieve the corresponding hour
+                    thiselectedate = listOfHours.get(position);
+                    openActivity3(thiselectedate);
                 }
-            }
-        });
+            });
+            buttonContainer.addView(button);
+        }
+      }
+        public void openActivity3 (Date thiselectedate){
+            Intent intent = new Intent(this, NewAppointmentActivity2.class);
+            intent.putExtra("thiselectedate", thiselectedate);
+            startActivity(intent);
+        }
     }
-    public void openActivity3(String thisSelectedhourString ) {
-        Intent intent = new Intent(this, NewAppointmentActivity2.class);
-        intent.putExtra("thiselectedhour", thisSelectedhourString);
-        startActivity(intent);
-    }
-}
