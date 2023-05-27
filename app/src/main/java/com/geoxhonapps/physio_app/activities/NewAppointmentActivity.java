@@ -1,10 +1,12 @@
 package com.geoxhonapps.physio_app.activities;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,21 +15,36 @@ import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NewAppointmentActivity extends ParentActivity {
     private CalendarView calendarView;
     private Button button1;
+    private String formattedHour;
+    private Date thiselectedate;
+
+    private  HorizontalScrollView scrollview;
+    private boolean flag;
+
+    private List<String> formattedHours = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r9);
+        scrollview = findViewById(R.id.scrollView);
         CalendarView calendarView = findViewById(R.id.calendar);
         button1 = findViewById(R.id.btn);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                scrollview = findViewById(R.id.scrollView);
+                LinearLayout buttonContainer = findViewById(R.id.buttonContainer);
+                buttonContainer.removeAllViews();
+                formattedHours.clear();
+
                 APatientUser user = (APatientUser) StaticFunctionUtilities.getUser();
                 String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
                 ArrayList<Date> listOfHours = user.getAvailableAppointmentsForDate(selectedDate);
@@ -35,24 +52,72 @@ public class NewAppointmentActivity extends ParentActivity {
                 if (listOfHours.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "No available hours. If you want,choose another day.", Toast.LENGTH_SHORT).show();
                 } else {
-                    openActivity2(listOfHours);
+                    SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+
+                    for (Date hour : listOfHours) {
+                        formattedHour = hourFormat.format(hour);
+                        formattedHours.add(formattedHour);
+                    }
+
+                   // HorizontalScrollView scroll= findViewById(R.id.scrollview);
+
+                    for (int i = 0; i < formattedHours.size(); i++) {
+                        final String hour = formattedHours.get(i);
+                        Button button = new Button(NewAppointmentActivity.this);
+
+                        button.setBackgroundColor(Color.LTGRAY);
+
+                        button.setWidth(50);
+                        button.setHeight(20);
+
+                        // set text
+                        button.setText(hour);
+
+                        // create patameter
+                        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        );
+                        
+                        buttonContainer.addView(button);
+                        button.setText(hour);
+                        button.setTag(i);
+
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int position = (int) v.getTag();
+                                //selectedHour = formattedHours.get(position);
+                                thiselectedate = listOfHours.get(position);
+
+                            }
+                        });
+
+                        flag = user.bookAppointment(thiselectedate);
+                        scrollview.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                scrollview.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                            }
+                        });
+                    }
+                    button1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (flag){
+                                Toast.makeText(getApplicationContext(), "Το ραντεβού σας αποθηκεύτηκε", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Δεν αποθηκεύτηκε", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
 
-                button1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "Δεν γίνεται αποθήκευση γιατί δεν επέλεξες ημερομηνία!", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         });
     }
-
-        public void openActivity2(ArrayList<Date> listOfHours) {
-            Intent intent = new Intent(this, DynamicActivity2.class);
-            intent.putExtra("listofhours", listOfHours);
-            startActivity(intent);
-        }
 }
 
 

@@ -14,9 +14,9 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 
 public class APatientUser extends AUser{
     private ArrayList<Long> bookedTimestamps;
