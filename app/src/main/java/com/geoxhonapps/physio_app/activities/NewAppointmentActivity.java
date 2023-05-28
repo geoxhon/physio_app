@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
@@ -104,13 +105,18 @@ public class NewAppointmentActivity extends ParentActivity {
                     button1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            flag = user.bookAppointment(thiselectedate);
-                            if (flag){
-                                Toast.makeText(getApplicationContext(), "Το ραντεβού σας αποθηκεύτηκε", Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(), "Δεν αποθηκεύτηκε", Toast.LENGTH_LONG).show();
-                            }
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    flag = user.bookAppointment(thiselectedate);
+                                    if (flag){
+                                        ContextFlowUtilities.presentAlert("Επιτυχία", "Το ραντεβού αποθηκεύτηκε με επιτυχία");
+                                    }
+                                    else{
+                                        ContextFlowUtilities.presentAlert("Σφάλμα", "Το ραντεβού δεν αποθηκεύτηκε, παρακαλώ προσπαθήστε αργότερα.");
+                                    }
+                                }
+                            }).start();
                         }
                     });
                 }
