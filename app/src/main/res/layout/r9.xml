@@ -17,44 +17,44 @@
 
         <TextView
             android:id="@+id/text1"
-            android:layout_width="227dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_25sdp"
             android:text="Νέο Ραντεβού"
             android:textColor="@color/black"
-            android:textSize="30sp"
+            android:textSize="@dimen/_25sdp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn"
-            android:layout_width="340dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="480dp"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginLeft="@dimen/_28sdp"
+            android:layout_marginTop="@dimen/_370sdp"
             android:backgroundTint="#56FFB8"
             android:text="Αποθήκευση"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="@dimen/_22sdp"
             android:textStyle="bold"
             app:cornerRadius="@android:dimen/notification_large_icon_width" />
 
 
         <CalendarView
             android:id="@+id/calendar"
-            android:layout_width="380dp"
-            android:layout_height="307dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="55dp"
+            android:layout_width="@dimen/_310sdp"
+            android:layout_height="302dp"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_55sdp"
             android:clickable="true"
             android:onClick="CalendarClick" />
 
         <HorizontalScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:layout_marginTop="388dp">
+            android:layout_height="88dp"
+            android:layout_marginTop="@dimen/_295sdp">
 
             <LinearLayout
                 android:id="@+id/buttonContainer"
