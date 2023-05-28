@@ -34,7 +34,6 @@ public class NewAppointmentActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r9);
-        scrollview = findViewById(R.id.scrollView);
         CalendarView calendarView = findViewById(R.id.calendar);
         button1 = findViewById(R.id.btn);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -94,17 +93,18 @@ public class NewAppointmentActivity extends ParentActivity {
                             }
                         });
 
-                        flag = user.bookAppointment(thiselectedate);
-                        scrollview.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                scrollview.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                            }
-                        });
                     }
+
+                    scrollview.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollview.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                        }
+                    });
                     button1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            flag = user.bookAppointment(thiselectedate);
                             if (flag){
                                 Toast.makeText(getApplicationContext(), "Το ραντεβού σας αποθηκεύτηκε", Toast.LENGTH_LONG).show();
                             }
