@@ -1,5 +1,7 @@
 package com.geoxhonapps.physio_app.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,6 +24,16 @@ public class MainActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
+            SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String refreshToken = sharedPreferences.getString("refresh_token", null);
+            if(!refreshToken.isEmpty()){
+                StaticFunctionUtilities.attemptLoginToken(refreshToken);
+                if(StaticFunctionUtilities.getUser()!=null){
+                    return;
+                }
+            }
+        }catch(Exception e){}
         setContentView(R.layout.activity_main);
         Button myButton = findViewById(R.id.loginButton);
         EditText username = findViewById(R.id.username);

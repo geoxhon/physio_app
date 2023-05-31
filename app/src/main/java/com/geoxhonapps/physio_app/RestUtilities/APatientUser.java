@@ -51,8 +51,10 @@ public class APatientUser extends AUser{
                     }
                     ContextFlowUtilities.moveTo(HomeActivity.class, false);
                 } catch (IOException e) {
+                    ContextFlowUtilities.dismissLoadingAlert();
                     ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                 } catch (JSONException e) {
+                    ContextFlowUtilities.dismissLoadingAlert();
                     ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                 }
             }

@@ -65,13 +65,16 @@ public class RequestComponent {
 
         stream.write(out);
 
-        if(endpoint.contains("api/v1/auth/login")) {
+        if(endpoint.contains("/login")) {
             if(http.getResponseCode()==200) {
                 isAuthenticated = true;
                 authCookie = http.getHeaderFields().get("set-cookie").get(0).split(";")[0];
             }
         }
-
+        if(endpoint.contains("/auth/logout")){
+            isAuthenticated = false;
+            authCookie = "";
+        }
         return new FRestResponse(http.getResponseCode(), getResponseContent(http), http.getHeaderFields());
     }
 

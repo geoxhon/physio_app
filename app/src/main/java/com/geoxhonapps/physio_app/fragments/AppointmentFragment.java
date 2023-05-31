@@ -1,8 +1,5 @@
 package com.geoxhonapps.physio_app.fragments;
 
-import static android.view.View.INVISIBLE;
-
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -20,19 +17,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Space;
 import android.widget.TextView;
 
 import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.AAppointment;
 import com.geoxhonapps.physio_app.RestUtilities.ADoctorUser;
-import com.geoxhonapps.physio_app.RestUtilities.AManagerUser;
 import com.geoxhonapps.physio_app.RestUtilities.APatientUser;
 import com.geoxhonapps.physio_app.RestUtilities.AUser;
 import com.geoxhonapps.physio_app.RestUtilities.EAppointmentStatus;
-import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
-import com.geoxhonapps.physio_app.activities.HomeActivity;
 import com.geoxhonapps.physio_app.activities.NewAppointmentActivity;
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.EUserType;
@@ -40,10 +32,6 @@ import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 import com.geoxhonapps.physio_app.activities.RecordAppointmentActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
 
 class AppointmentViewHandler {
@@ -57,6 +45,7 @@ class AppointmentViewHandler {
     public AppointmentViewHandler(AAppointment appointment, View view){
         this.appointment = appointment;
         this.view = view;
+        this.view.setElevation(20);
         //Φόρτωσε όλα τα στοιχεία απο το δοσμένο view
         ((TextView)this.view.findViewById(R.id.appointmentIdText)).setText("#"+appointment.getAppointmentId());
         ((TextView)this.view.findViewById(R.id.patientName)).setText(appointment.getAssociatedUser().getDisplayName());
@@ -126,22 +115,25 @@ class AppointmentViewHandler {
         public void onClick(View v) {
             switch (v.getId() ) {
                 case R.id.confirmButton:
+                    ContextFlowUtilities.presentLoadingAlert("Παρακαλώ Περιμένετε", false);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             if(appointment.Accept()) {
                                 ASYNC_prepareView();
+                                ContextFlowUtilities.dismissLoadingAlert();
                             }
                         }
                     }).start();
                     break;
                 case R.id.cancelButton:
+                    ContextFlowUtilities.presentLoadingAlert("Παρακαλώ Περιμένετε", false);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             if(appointment.Cancel()) {
-
                                 ASYNC_prepareView();
+                                ContextFlowUtilities.dismissLoadingAlert();
                             }
                         }
                     }).start();

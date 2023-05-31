@@ -12,6 +12,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.cardview.widget.CardView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.HomePagerAdapter;
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.AAppointment;
@@ -82,11 +83,19 @@ public class HomeActivity extends ParentActivity {
             case Patient:
                 bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_patient);
         }
+        ContextFlowUtilities.dismissLoadingAlert();
 
     }
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
         getMenuInflater().inflate(R.menu.main, menu);
+        menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                ContextFlowUtilities.moveTo(SettingsActivity.class, true);
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
