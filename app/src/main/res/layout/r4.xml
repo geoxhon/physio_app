@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/physio_green"
+    tools:context=".fragments.PrintHistoryFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:cardCornerRadius="60dp"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/history_txt"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+
+        <TableLayout
+            android:layout_width="420dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="100dp"
+            android:stretchColumns="1">
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:background="@color/physio_green">
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_height="match_parent"
+                    android:background="@color/physio_green"
+                    android:text="Στοιχεία ασθενή"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+
+                android:layout_width="10dp"
+                android:layout_height="10dp">
+
+                <TextView
+                    android:id="@+id/Name"
+                    android:layout_width="126dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Όνομα"
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:id="@+id/textView_name"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    android:text="Καλημέρης Καλησπερόπουλος"
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/Amka"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="ΑΜΚΑ"
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:id="@+id/textView3_amka"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="123456789132"
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/Address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="Διεύθυνση"
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:id="@+id/textView4_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Παπάγου 14"
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/NoVisits"
+                    android:layout_width="180dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Αριθμός επισκέψεων"
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:id="@+id/textView_NoVisits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
+
+
+            </TableRow>
+        </TableLayout>
+
+        <RelativeLayout
+            android:layout_width="385dp"
+            android:layout_height="291dp"
+            android:layout_marginTop="370dp"
+            android:padding="40dp">
+
+            <TextView
+                android:id="@+id/appointmentNumberLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="#001"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/appointmentNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/appointmentDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/appointmentNumberLabel"
+                android:layout_alignParentStart="true"
+                android:text="Ημερομηνία:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/appointmentDateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/appointmentNumberTextView"
+                android:layout_alignParentEnd="true"
+                android:text="8 Ιουλίου 2023"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/costLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/appointmentDateLabel"
+                android:layout_alignParentStart="true"
+                android:text="Κόστος:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/costTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/appointmentDateTextView"
+                android:layout_alignParentEnd="true"
+                android:text="535.000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/serviceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/costLabel"
+                android:layout_alignParentStart="true"
+                android:text="Υπηρεσία:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/serviceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/costTextView"
+                android:layout_alignParentEnd="true"
+                android:text="Happy ending"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/notesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/serviceLabel"
+                android:layout_alignParentStart="true"
+                android:text="Σημειώσεις"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/notesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/serviceTextView"
+                android:layout_alignParentEnd="true"
+                android:text="Μπλα μπλα μπλα"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
