@@ -12,7 +12,8 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="-55dp"
         app:cardCornerRadius="60dp"
-        app:cardElevation="20dp" >
+        app:cardElevation="20dp"
+        tools:ignore="ExtraText,VisualLintBounds">
 
         <TextView
             android:id="@+id/textView"
@@ -25,8 +26,8 @@
             android:textSize="40sp"
             android:textStyle="bold" />
 
-
         <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
@@ -39,6 +40,14 @@
             app:iconifiedByDefault="false"
             app:queryHint="Αναζήτηση Ασθενή ..." />
 
-    </androidx.cardview.widget.CardView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="160dp"
+            />
 
+
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
