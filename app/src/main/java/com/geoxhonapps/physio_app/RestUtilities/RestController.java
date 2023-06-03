@@ -1,4 +1,11 @@
 package com.geoxhonapps.physio_app.RestUtilities;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
+
+import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FCreateUserResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAppointmentResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetAvailabilityResponse;
@@ -9,12 +16,20 @@ import com.geoxhonapps.physio_app.RestUtilities.Responses.FGetServicesResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FLoginResponse;
 import com.geoxhonapps.physio_app.RestUtilities.Responses.FRestResponse;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.util.ArrayList;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
 public class RestController {
     private String userId;
     private String username;
@@ -24,7 +39,12 @@ public class RestController {
         requestComponent = new RequestComponent();
     }
 
-    public FLoginResponse doLogin(String username, String password) throws IOException, JSONException {
+    public boolean doLogout() throws IOException{
+        JSONObject obj = new JSONObject();
+        FRestResponse r = requestComponent.Post("/api/v1/auth/logout", obj);
+        return r.statusCode == 200 || r.statusCode == 403;
+    }
+    public FLoginResponse doLogin(String username, String password) throws IOException, JSONException{
         JSONObject obj = new JSONObject();
 
         obj.put("username", username);
@@ -37,6 +57,27 @@ public class RestController {
             JSONObject data = new JSONObject(r.responseContent);
             data = (JSONObject)data.get("triggerResults");
             userId = (String) data.get("userId");
+            // Save the refresh token
+            SharedPreferences sharedPreferences = ContextFlowUtilities.getCurrentView().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("refresh_token", data.getString("refreshToken"));
+            editor.apply();
+            return new FLoginResponse(true, userId, (String)data.get("displayName"), username, ((Number)data.get("userType")).intValue(), data.getString("email"), data.getString("ssn"));
+        }
+        return new FLoginResponse(false);
+    }
+    public FLoginResponse doLoginToken(String refreshToken) throws IOException, JSONException {
+        JSONObject obj = new JSONObject();
+        FRestResponse r = requestComponent.Post("/api/v1/auth/token/"+refreshToken+"/login", obj);
+        if(r.statusCode==200) {
+            JSONObject data = new JSONObject(r.responseContent);
+            data = (JSONObject)data.get("triggerResults");
+            userId = (String) data.get("userId");
+            // Save the refresh token
+            SharedPreferences sharedPreferences = ContextFlowUtilities.getCurrentView().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("refresh_token", data.getString("refreshToken"));
+            editor.apply();
             this.username = username;
             return new FLoginResponse(true, userId, (String)data.get("displayName"), username, ((Number)data.get("userType")).intValue(), data.getString("email"), data.getString("ssn"));
         }
@@ -69,7 +110,7 @@ public class RestController {
         JSONObject data = new JSONObject(r.responseContent);
         if(data.getBoolean("success")) {
             data = data.getJSONObject("triggerResults");
-            return new FCreateUserResponse(true, data.getString("userId"), data.getString("createdAt"), data.getInt("accountType"));
+            return new FCreateUserResponse(true, data.getString("id"), data.getString("createdAt"), data.getInt("accountType"));
         }
         return new FCreateUserResponse(false);
     }
@@ -202,5 +243,11 @@ public class RestController {
         }
         return -1;
 
+    }
+
+    public boolean deleteUser(String userId) throws IOException, JSONException {
+        FRestResponse r = requestComponent.Delete("/api/v1/user/"+userId);
+        JSONObject data = new JSONObject(r.responseContent);
+        return data.getBoolean("success");
     }
 }

@@ -1,6 +1,7 @@
 package com.geoxhonapps.physio_app;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,10 +11,10 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.geoxhonapps.physio_app.activities.ParentActivity;
-
 public class ContextFlowUtilities {
     private static AppCompatActivity currentView = null;
     private static Object passedObject = null;
+    private static ProgressDialog progressDialog = null;
     /**
      * Αλλάζει το View/Activity της εφαρμογής.
      * @param newView Η νέα κλάση που θα προβληθεί
@@ -103,6 +104,31 @@ public class ContextFlowUtilities {
                 // Create and show the AlertDialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+    }
+
+    public static void presentLoadingAlert(String alertMessage, boolean bIsCancellable){
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog = new ProgressDialog(currentView);
+                progressDialog.setMessage(alertMessage);
+                progressDialog.setCancelable(bIsCancellable); // Set to true if you want to allow cancellation
+                progressDialog.show();
+            }
+        });
+    }
+    public static void dismissLoadingAlert(){
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
             }
         });
     }

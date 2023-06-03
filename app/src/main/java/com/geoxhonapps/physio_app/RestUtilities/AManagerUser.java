@@ -27,13 +27,15 @@ public class AManagerUser extends AUser{
                         myDoctors.add(new ADoctor(temp.get(i)));
                     }
                     ArrayList<FGetServicesResponse> tempServices = StaticFunctionUtilities.getRestController().getServices();
-                    for(int i =0; i<temp.size();i++){
+                    for(int i =0; i<tempServices.size();i++){
                         services.add(new AService(tempServices.get(i)));
                     }
                     ContextFlowUtilities.moveTo(HomeActivity.class, false);
                 } catch (IOException e) {
+                    ContextFlowUtilities.dismissLoadingAlert();
                     ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                 } catch (JSONException e) {
+                    ContextFlowUtilities.dismissLoadingAlert();
                     ContextFlowUtilities.presentAlert("Σφάλμα", "Η σύνδεση δεν ήταν επιτυχής, παρακαλώ προσπαθήστε ξανά");
                 }
             }
@@ -88,7 +90,19 @@ public class AManagerUser extends AUser{
         }
         return false;
     }
-
+    public boolean deleteDoctor(ADoctor doctor){
+        try {
+            if(StaticFunctionUtilities.getRestController().deleteUser(doctor.getUserId())){
+                myDoctors.remove(doctor);
+                return true;
+            }
+        } catch (IOException e) {
+            return false;
+        } catch (JSONException e) {
+            return false;
+        }
+        return false;
+    }
     /**
      * Συνάρτηση που δημιουργεί μια νέα παροχή για τους γιατρούς και την προσθέτει στην βάση δεδομένων.
      * @param id Το id της παροχής, μέχρι 5 χαρακτήρες πχ EX001

@@ -35,7 +35,7 @@
                     android:layout_marginLeft="10dp"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
-                    android:textSize="36sp"
+                    android:textSize="@dimen/_25sdp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -43,11 +43,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-
                     android:text="Μαρία Παπαδοπούκου"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
-                    android:textSize="15dp"
+                    android:textSize="@dimen/_12sdp"
                     android:textStyle="normal" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -110,7 +109,7 @@
                             android:text="Μπία Μπέκου"
                             android:textAlignment="textStart"
                             android:textColor="@color/black"
-                            android:textSize="15dp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="normal|bold" />
 
                         <TextView
@@ -121,7 +120,7 @@
                             android:text="18:00"
                             android:textAlignment="textStart"
                             android:textColor="#B3000000"
-                            android:textSize="15dp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="normal" />
                     </LinearLayout>
                 </LinearLayout>

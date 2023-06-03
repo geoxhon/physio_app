@@ -1,75 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="#5FF199"
-tools:context=".r8">
 
-<androidx.cardview.widget.CardView
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/_100sdp"
-    android:layout_marginBottom="-55dp"
-    app:cardCornerRadius="60dp"
-    app:cardElevation="20dp">
+    android:background="#56FFB8"
+    android:backgroundTint="#56FFB8"
+    android:foregroundTint="#56FFB8"
+    android:outlineAmbientShadowColor="#56FFB8"
+    tools:context=".activities.AddPatientActivity">
 
-    <TextView
-        android:id="@+id/textView12"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:fontFamily="sans-serif"
-        android:text="Καταγραφή Επίσκεψης"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_140sdp"
+        android:layout_marginBottom="@dimen/_minus55sdp"
+        app:cardCornerRadius="@dimen/_60sdp"
+        app:cardElevation="@dimen/_20sdp">
 
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="@dimen/_179sdp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_40sdp"
-        android:layout_marginLeft="@dimen/_60sdp"
-        android:layout_marginTop="@dimen/_60sdp"
-        android:text="#41357"
-        android:textSize="20sp"
-        android:textStyle="normal|bold"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="394dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="110dp">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Πρόσθεσε λεπτομέρειες" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_55sdp"
-        android:layout_marginTop="@dimen/_400sdp"
-        android:backgroundTint="#5FF199"
-        android:fontFamily="casual"
-        android:textColor="#090808"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:text="Ολοκλήρωση" />
-</androidx.cardview.widget.CardView>
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/saveButtonR8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+                app:layout_constraintVertical_bias="0.713"
+                />
+
+            <Button
+                android:id="@+id/saveButtonR8"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="#56FFB8"
+                android:fontFamily="sans-serif"
+                android:text="Αποθήκευση"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.395"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.535" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/leptomeries"
+                android:layout_width="@dimen/_280sdp"
+                android:layout_height="180dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#0E0E0E"
+                android:backgroundTint="#F6F6F6"
+                android:fontFamily="sans-serif"
+                android:inputType="text|textPersonName"
+                android:paddingLeft="30dp"
+                android:textColorHint="@color/grey_text_hint"
+                app:layout_constraintBottom_toTopOf="@+id/spinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.489"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textInputLayout2"
+                app:layout_constraintVertical_bias="0.656" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                android:layout_width="@dimen/_300sdp"
+                android:layout_height="@dimen/_40sdp"
+                app:boxBackgroundColor="#F6F6F6"
+                app:boxCornerRadiusBottomEnd="10px"
+                app:boxCornerRadiusBottomStart="10px"
+                app:boxCornerRadiusTopEnd="10px"
+                app:boxCornerRadiusTopStart="10px"
+                app:layout_constraintBottom_toTopOf="@+id/saveButtonR8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/some_id"
+                    android:layout_width="341dp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="200dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_horizontal|bottom"
+                    android:lineHeight="@dimen/_30sdp"
+                    android:text="Καταγραφή Επίσκεψης"
+                    android:textColor="#000000"
+                    android:textFontWeight="800"
+                    android:textSize="@dimen/_20sdp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="395dp"
+        android:layout_height="278dp"
+        android:layout_marginTop="-52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ergasia" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

@@ -1,6 +1,9 @@
 package com.geoxhonapps.physio_app.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,10 +24,31 @@ public class MainActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
+            SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String refreshToken = sharedPreferences.getString("refresh_token", null);
+            if(!refreshToken.isEmpty()){
+                StaticFunctionUtilities.attemptLoginToken(refreshToken);
+                if(StaticFunctionUtilities.getUser()!=null){
+                    return;
+                }
+            }
+        }catch(Exception e){}
         setContentView(R.layout.activity_main);
         Button myButton = findViewById(R.id.loginButton);
         EditText username = findViewById(R.id.username);
         EditText password = findViewById(R.id.password);
+        password.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    StaticFunctionUtilities.attemptLogin(username.getText().toString(), password.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
         myButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 StaticFunctionUtilities.attemptLogin(username.getText().toString(), password.getText().toString());
