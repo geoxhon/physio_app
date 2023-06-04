@@ -11,10 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.R;
 import com.geoxhonapps.physio_app.RestUtilities.ADoctorUser;
 import com.geoxhonapps.physio_app.RestUtilities.APatient;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
+import com.geoxhonapps.physio_app.activities.PatientInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ public class SearchFragment extends Fragment {
     private SearchView searchView;
     private MyAdapter adapter;
     private List<String> dataList;
-
+    private List<APatient> patients;
     public interface OnItemClickListener {
         void onItemClick(String item);
     }
@@ -43,7 +45,7 @@ public class SearchFragment extends Fragment {
         // Initialize the data list
         dataList = new ArrayList<>();
 
-        List<APatient> patients = ((ADoctorUser) StaticFunctionUtilities.getUser()).getPatients(false);
+        this.patients = ((ADoctorUser) StaticFunctionUtilities.getUser()).getPatients(false);
         for (APatient patient : patients) {
             String displayName = patient.getDisplayName();
             dataList.add(displayName);
@@ -103,9 +105,8 @@ public class SearchFragment extends Fragment {
 
         // Store the selected item in a variable
         String selectedResult = item;
-
         // Use the selected result as needed
-        //ContextFlowUtilities.moveTo(, true, selectedResult);
+        ContextFlowUtilities.moveTo(PatientInfoActivity.class, true, patients.get(dataList.indexOf(selectedResult)));
 
         // Example: Show a toast message
         Toast.makeText(getActivity(), "Selected: " + selectedResult, Toast.LENGTH_SHORT).show();
