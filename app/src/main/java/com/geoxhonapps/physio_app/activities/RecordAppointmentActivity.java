@@ -45,14 +45,19 @@ public class RecordAppointmentActivity extends ParentActivity {
             public void onClick(View view) {
 
                 TextView textView = (TextView)spinner.getSelectedView();
-                String serviceUsed = textView.getText().toString();
+                AService serviceUsed = (AService) textView.getText();
 
                 TextView t = (TextView)findViewById(R.id.leptomeries);
                 String details = "";
                 details = t.getText().toString();
 
-                Toast.makeText(getApplicationContext(),serviceUsed,Toast.LENGTH_LONG).show();
+                selectedAppointment.recordAppointment(serviceUsed,details);
 
+                if (selectedAppointment.equals(null)){
+                    Toast.makeText(getApplicationContext(),"Υπήρξε σφάλμα στην αποθηκευση", Toast.LENGTH_LONG).show();
+                }
+
+                Toast.makeText(getApplicationContext(),"Επιτυχία Αποθήκευσης", Toast.LENGTH_LONG).show();
 
             }
         });
