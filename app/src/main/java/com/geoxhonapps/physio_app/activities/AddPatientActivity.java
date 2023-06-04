@@ -55,7 +55,7 @@ public class AddPatientActivity extends ParentActivity {
                                 amka.setText("");
                                 ContextFlowUtilities.presentAlert("Επιτυχία", "Ο ασθενής δημηιουργήθηκε με επιτυχία");
                             } else {
-                                ContextFlowUtilities.presentAlert("Αποτυχία", "Δεν μπορούν δύο υπηρεσίες να έχουν τον ίδιο κωδικό");
+                                ContextFlowUtilities.presentAlert("Αποτυχία", "");
                             }
 
                         }
