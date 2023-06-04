@@ -126,6 +126,7 @@
                     android:backgroundTint="#F6F6F6"
                     android:fontFamily="sans-serif"
                     android:hint=" Password"
+                    android:inputType="text|textPassword"
                     android:textColorHint="@color/grey_text_hint" />
 
             </androidx.cardview.widget.CardView>

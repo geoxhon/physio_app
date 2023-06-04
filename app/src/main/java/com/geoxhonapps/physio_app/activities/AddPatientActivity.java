@@ -55,7 +55,7 @@ public class AddPatientActivity extends ParentActivity {
                                 amka.setText("");
                                 ContextFlowUtilities.presentAlert("Επιτυχία", "Ο ασθενής δημηιουργήθηκε με επιτυχία");
                             } else {
-                                ContextFlowUtilities.presentAlert("Αποτυχία", "Παρακαλώ επιλέξτε άλλο Username/Email");
+                                ContextFlowUtilities.presentAlert("Αποτυχία", "Παρακαλώ επιλέξτε άλλο Username/Email και σιγουρευτείτε πως ο κωδικός σας περιέχει τουλάχιστον έναν αριθμό, πεζά και κεφαλαία γράμματα και ειδικούς χαρακτήρες");
                             }
 
                         }
