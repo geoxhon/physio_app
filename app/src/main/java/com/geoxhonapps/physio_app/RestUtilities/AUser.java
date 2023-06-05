@@ -103,7 +103,7 @@ public class AUser {
 
     public AService getServiceById(String id){
         for (AService service : services) {
-            if(service.getId() == id){
+            if(service.getId().equals(id)){
                 return service;
             }
         }
