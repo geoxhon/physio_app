@@ -47,9 +47,9 @@ public class RecordAppointmentActivity extends ParentActivity {
                 TextView textView = (TextView)spinner.getSelectedView();
                 AService serviceUsed = (AService) textView.getText();
 
-                TextView t = (TextView)findViewById(R.id.leptomeries);
+                //TextView t = (TextView)findViewById(R.id.leptomeries);
                 String details = "";
-                details = t.getText().toString();
+                details = "";//t.getText().toString();
 
                 selectedAppointment.recordAppointment(serviceUsed,details);
 

@@ -1,35 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#56FFB8"
+    android:backgroundTint="#56FFB8"
+    android:foregroundTint="#56FFB8"
+    android:outlineAmbientShadowColor="#56FFB8"
+    tools:context=".activities.AddPatientActivity">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="@dimen/_290sdp"
+            android:layout_height="@dimen/_200sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/r3" />
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#56FFB8"
-            android:backgroundTint="#56FFB8"
-            android:foregroundTint="#56FFB8"
-            android:outlineAmbientShadowColor="#56FFB8"
-            tools:context=".activities.AddPatientActivity">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_140sdp"
-                android:layout_marginBottom="@dimen/_minus55sdp"
-                app:cardCornerRadius="@dimen/_60sdp"
-                app:cardElevation="@dimen/_20sdp">
-
+            android:layout_marginTop="@dimen/_140sdp"
+            android:layout_marginBottom="@dimen/_minus55sdp"
+            app:cardCornerRadius="@dimen/_60sdp"
+            app:cardElevation="@dimen/_20sdp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/some_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center_horizontal|bottom"
+                        android:lineHeight="@dimen/_30sdp"
+                        android:text="Δήλωση Ασθενή"
+                        android:textColor="#000000"
+                        android:textFontWeight="800"
+                        android:textSize="@dimen/_25sdp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/some_id" />
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usernamer3"
                     android:layout_width="@dimen/_260sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_40sdp"
-                    android:background="#0E0E0E"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/custom_edittext"
                     android:backgroundTint="#F6F6F6"
                     android:fontFamily="sans-serif"
-                    android:hint=" Username"
+                    android:hint="Username"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
                     android:textColorHint="@color/grey_text_hint" />
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -37,11 +64,13 @@
                     android:layout_width="@dimen/_260sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_130sdp"
-                    android:background="#0E0E0E"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/custom_edittext"
                     android:backgroundTint="#F6F6F6"
                     android:fontFamily="sans-serif"
-                    android:hint="  Ονοματεπώνυμο"
+                    android:hint="Ονοματεπώνυμο"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
                     android:inputType="text|textPersonName"
                     android:textColorHint="@color/grey_text_hint" />
 
@@ -50,11 +79,13 @@
                     android:layout_width="@dimen/_260sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_220sdp"
-                    android:background="#0E0E0E"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/custom_edittext"
                     android:backgroundTint="#F6F6F6"
                     android:fontFamily="sans-serif"
-                    android:hint="  ΑΜΚΑ"
+                    android:hint="ΑΜΚΑ"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
                     android:inputType="number"
                     android:textColorHint="@color/grey_text_hint" />
 
@@ -63,32 +94,28 @@
                     android:layout_width="@dimen/_260sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_175sdp"
-                    android:background="#0E0E0E"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/custom_edittext"
                     android:backgroundTint="#F6F6F6"
                     android:fontFamily="sans-serif"
-                    android:hint=" E-mail"
+                    android:hint="E-mail"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
                     android:inputType="text|textEmailAddress"
                     android:textColorHint="@color/grey_text_hint" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/passwordr3"
+                        android:layout_width="@dimen/_260sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/custom_edittext"
+                        android:backgroundTint="#F6F6F6"
+                        android:fontFamily="sans-serif"
+                        android:hint=" Password"
+                        android:inputType="text|textPassword"
+                        android:textColorHint="@color/grey_text_hint" />
 
-                <TextView
-                    android:id="@+id/some_id"
-                    android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_113sdp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center_horizontal|bottom"
-                    android:lineHeight="@dimen/_30sdp"
-                    android:text="Δήλωση Ασθενή"
-                    android:textColor="#000000"
-                    android:textFontWeight="800"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@id/some_id" />
 
                 <Button
                     android:id="@+id/buttonr3"
@@ -97,7 +124,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_260sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
                     android:backgroundTint="#56FFB8"
                     android:fontFamily="sans-serif"
                     android:text="Αποθήκευση"
@@ -105,40 +132,12 @@
                     android:textSize="18sp"
                     app:cornerRadius="20dp" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="@dimen/_300sdp"
-                    android:layout_height="@dimen/_51sdp"
-                    app:boxBackgroundColor="#F6F6F6"
-                    app:boxCornerRadiusBottomEnd="10px"
-                    app:boxCornerRadiusBottomStart="10px"
-                    app:boxCornerRadiusTopEnd="10px"
-                    app:boxCornerRadiusTopStart="10px">
 
-                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordr3"
-                    android:layout_width="@dimen/_260sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_85sdp"
-                    android:background="#0E0E0E"
-                    android:backgroundTint="#F6F6F6"
-                    android:fontFamily="sans-serif"
-                    android:hint=" Password"
-                    android:inputType="text|textPassword"
-                    android:textColorHint="@color/grey_text_hint" />
 
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="@dimen/_290sdp"
-        android:layout_height="@dimen/_200sdp"
-        android:elevation="@dimen/_500sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/r3" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

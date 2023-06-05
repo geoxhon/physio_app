@@ -18,7 +18,7 @@ public class AddPatientActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r3);
         Button B=findViewById(R.id.buttonr3);
-
+        getSupportActionBar().hide();
         B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
