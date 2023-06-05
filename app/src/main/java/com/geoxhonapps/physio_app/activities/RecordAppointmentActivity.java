@@ -19,6 +19,8 @@ import com.geoxhonapps.physio_app.RestUtilities.AManagerUser;
 import com.geoxhonapps.physio_app.RestUtilities.AService;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 
+import org.w3c.dom.Text;
+
 public class RecordAppointmentActivity extends ParentActivity {
     private AAppointment selectedAppointment;
     @Override
@@ -30,7 +32,7 @@ public class RecordAppointmentActivity extends ParentActivity {
             selectedAppointment = (AAppointment)ContextFlowUtilities.getPassedObject();
         }
         setContentView(R.layout.r8);
-
+        ((TextView)findViewById(R.id.appointmentIdText)).setText("#"+selectedAppointment.getAppointmentId());
         Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -38,27 +40,29 @@ public class RecordAppointmentActivity extends ParentActivity {
         for(AService service: StaticFunctionUtilities.getUser().getServices(false)){
             adapter.add(service.getName());
         }
-        Button btn = findViewById(R.id.saveButtonR8);
+        Button btn = findViewById(R.id.saveButtonr8);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                TextView textView = (TextView)spinner.getSelectedView();
-                AService serviceUsed = (AService) textView.getText();
 
-                //TextView t = (TextView)findViewById(R.id.leptomeries);
-                String details = "";
-                details = "";//t.getText().toString();
-
-                selectedAppointment.recordAppointment(serviceUsed,details);
-
-                if (selectedAppointment.equals(null)){
-                    Toast.makeText(getApplicationContext(),"Υπήρξε σφάλμα στην αποθηκευση", Toast.LENGTH_LONG).show();
-                }
-
-                Toast.makeText(getApplicationContext(),"Επιτυχία Αποθήκευσης", Toast.LENGTH_LONG).show();
-
+                AService serviceUsed = StaticFunctionUtilities.getUser().getServices(false).get(spinner.getSelectedItemPosition());
+                TextView t = (TextView)findViewById(R.id.detailsText);
+                String details = t.getText().toString();
+                ContextFlowUtilities.presentLoadingAlert("Παρακαλώ Περιμένετε", false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (selectedAppointment.recordAppointment(serviceUsed,details)!=null){
+                            ContextFlowUtilities.dismissLoadingAlert();
+                            ContextFlowUtilities.presentAlert("Επιτυχία", "Το ραντεβού καταγράφηκε με επιτυχία");
+                        }else{
+                            ContextFlowUtilities.dismissLoadingAlert();
+                            ContextFlowUtilities.presentAlert("Σφάλμα", "Υπήρξε ένα πρόβλημα κατά την καταγραφή του ραντεβού. Παρακαλώ δοκιμάστε ξανά");
+                        }
+                    }
+                }).start();
             }
         });
     }
