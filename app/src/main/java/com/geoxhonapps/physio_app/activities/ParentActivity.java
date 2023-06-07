@@ -13,4 +13,10 @@ public class ParentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ContextFlowUtilities.setCurrentView(this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ContextFlowUtilities.setCurrentView(this);
+    }
 }

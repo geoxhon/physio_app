@@ -121,8 +121,9 @@ class AppointmentViewHandler {
                         public void run() {
                             if(appointment.Accept()) {
                                 ASYNC_prepareView();
-                                ContextFlowUtilities.dismissLoadingAlert();
+
                             }
+                            ContextFlowUtilities.dismissLoadingAlert();
                         }
                     }).start();
                     break;
@@ -133,8 +134,8 @@ class AppointmentViewHandler {
                         public void run() {
                             if(appointment.Cancel()) {
                                 ASYNC_prepareView();
-                                ContextFlowUtilities.dismissLoadingAlert();
                             }
+                            ContextFlowUtilities.dismissLoadingAlert();
                         }
                     }).start();
                     break;
@@ -159,6 +160,12 @@ public class AppointmentFragment extends Fragment {
     private ArrayList<AppointmentViewHandler> appointmentViewHandlers = new ArrayList<AppointmentViewHandler>();
     public AppointmentFragment() {
         // Required empty public constructor
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateScrollView(searchString, statusToFilter);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

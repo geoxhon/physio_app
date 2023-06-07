@@ -130,15 +130,21 @@ public class APatientUser extends AUser{
      * @param date Η Ημερομηνία του ραντεβού
      * @return Επιστρέφει αν η καταχώρηση ήταν επιτυχής
      */
-    public boolean bookAppointment(Date date){
+    public AAppointment bookAppointment(Date date){
         try {
-            return StaticFunctionUtilities.getRestController().bookAppointment(date.getTime()/1000);
+            int newAppointmentId = StaticFunctionUtilities.getRestController().bookAppointment(date.getTime()/1000);
+            if(newAppointmentId!=-1){
+                AAppointment newAppointment = new AAppointment(newAppointmentId, myDoctor, EAppointmentStatus.Pending, date);
+                myAppointments.add(newAppointment);
+                return newAppointment;
+            }
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
     public ADoctor getMyDoctor(){
         return myDoctor;

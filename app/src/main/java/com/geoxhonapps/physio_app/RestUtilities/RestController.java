@@ -166,12 +166,16 @@ public class RestController {
         return data.getBoolean("success");
     }
 
-    public boolean bookAppointment(Long timestamp) throws IOException, JSONException {
+    public int bookAppointment(Long timestamp) throws IOException, JSONException {
         JSONObject obj = new JSONObject();
         obj.put("timestamp", timestamp);
         FRestResponse r = requestComponent.Post("/api/v1/appointments/book", obj);
         JSONObject data = new JSONObject(r.responseContent);
-        return data.getBoolean("success");
+        if(data.getBoolean("success")){
+            data = data.getJSONObject("triggerResults");
+            return data.getInt("appointmentId");
+        }
+        return -1;
     }
 
     public ArrayList<FGetServicesResponse> getServices() throws IOException, JSONException{

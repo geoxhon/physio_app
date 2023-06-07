@@ -1,5 +1,7 @@
 package com.geoxhonapps.physio_app.activities;
 
+import static com.geoxhonapps.physio_app.R.color.grey_text_hint;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -36,7 +38,10 @@ public class NewAppointmentActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r9);
         CalendarView calendarView = findViewById(R.id.calendar);
+        getSupportActionBar().hide();
         button1 = findViewById(R.id.btn);
+        button1.setEnabled(false);
+        button1.setBackgroundColor(getResources().getColor(grey_text_hint));
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -90,7 +95,8 @@ public class NewAppointmentActivity extends ParentActivity {
                                 int position = (int) v.getTag();
                                 //selectedHour = formattedHours.get(position);
                                 thiselectedate = listOfHours.get(position);
-
+                                button1.setEnabled(true);
+                                button1.setBackgroundColor(getResources().getColor(R.color.physio_green));
                             }
                         });
 
@@ -105,14 +111,18 @@ public class NewAppointmentActivity extends ParentActivity {
                     button1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            v.setEnabled(false);
+                            ContextFlowUtilities.presentLoadingAlert("Παρακαλώ Περιμένετε", false);
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    flag = user.bookAppointment(thiselectedate);
-                                    if (flag){
+
+                                    if (user.bookAppointment(thiselectedate)!=null){
+                                        ContextFlowUtilities.dismissLoadingAlert();
                                         ContextFlowUtilities.presentAlert("Επιτυχία", "Το ραντεβού αποθηκεύτηκε με επιτυχία");
                                     }
                                     else{
+                                        ContextFlowUtilities.dismissLoadingAlert();
                                         ContextFlowUtilities.presentAlert("Σφάλμα", "Το ραντεβού δεν αποθηκεύτηκε, παρακαλώ προσπαθήστε αργότερα.");
                                     }
                                 }

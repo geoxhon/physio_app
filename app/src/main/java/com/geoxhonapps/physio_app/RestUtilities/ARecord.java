@@ -58,4 +58,9 @@ public class ARecord {
     public int getId() {
         return id;
     }
+
+    public String getGlobalDateString(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
+    }
 }
