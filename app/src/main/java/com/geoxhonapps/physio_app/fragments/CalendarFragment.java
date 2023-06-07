@@ -25,55 +25,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-class DateButtonAdapter extends ArrayAdapter<Calendar>{
-    ArrayList<AAppointment> AppointmentsList = new ArrayList<AAppointment>();
-
-    public DateButtonAdapter(@NonNull Context context, @NonNull List<Calendar> objects) {
-        super(context, 0, objects);
-    }
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.r6_date, parent, false);
-        }
-        Calendar currentDate = getItem(position);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE");
-        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
-        Button dateButton = convertView.findViewById(R.id.ButtonDate);
-        dateButton.setText(dateFormat.format(currentDate.getTime()) +" "+ dayFormat.format(currentDate.getTime()));
-
-        AppointmentsList =((ADoctorUser) StaticFunctionUtilities.getUser()).getAppointments(false);
-        ArrayList<AAppointment> SpecificDayApp = new ArrayList<>();
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
-
-
-        for(int i=0; i<AppointmentsList.size();i++){
-
-            if((format.format(AppointmentsList.get(i).getAppointmentDate().getTime())).equals(format.format(currentDate.getTime()))){
-                SpecificDayApp.add(AppointmentsList.get(i));
-
-            }
-        }
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ListOfDates adapter = new ListOfDates(ContextFlowUtilities.getCurrentView(),SpecificDayApp);
-                adapter = new ArrayAdapter<AAppointment>(this, android.R.layout.simple_list_item_1,);
-                LinearLayout dateLayout = view.findViewById(R.id.dateListLayout);
-                for(int i = 0; i< adapter.getCount();i++){
-
-
-                    View newview = adapter.getView(i, null, dateLayout);
-                    dateLayout.addView(newview);
-                }
-            }
-        });
-        return convertView;
-    }
-}
-
 class ListOfDates extends ArrayAdapter<AAppointment>{
-    ArrayAdapter<AAppointment> adapter;
+
     public ListOfDates(Context context, ArrayList<AAppointment> items){
         super(context,0,items);
 
@@ -85,29 +38,74 @@ class ListOfDates extends ArrayAdapter<AAppointment>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.r6_list,parent,false);
         }
         AAppointment appoint = getItem(position);
-
-
-        ListView ListOfAppointments = convertView.findViewById(R.id.listview);
-        ListOfAppointments.setAdapter(adapter);
-
-
-
-
+        ((TextView)convertView.findViewById(R.id.appointmentIdText)).setText("#"+appoint.getAppointmentId());
+        ((TextView)convertView.findViewById(R.id.patientName)).setText(appoint.getAssociatedUser().getDisplayName());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        ((TextView)convertView.findViewById(R.id.appointmentTime)).setText(timeFormat.format(appoint.getAppointmentDate()));
         return convertView;
     }
-
-
 }
+
+class DateButtonAdapter extends ArrayAdapter<Calendar>{
+    ArrayList<AAppointment> AppointmentsList = new ArrayList<AAppointment>();
+
+    public DateButtonAdapter(@NonNull Context context, @NonNull List<Calendar> objects) {
+        super(context, 0, objects);
+    }
+
+   public View getView(int position, View convertView, ViewGroup parent, View parentView){
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.r6_date, parent, false);
+        }
+        Calendar currentDate = getItem(position);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE");
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        Button dateButton = convertView.findViewById(R.id.ButtonDate);
+        dateButton.setText(dateFormat.format(currentDate.getTime()) +" "+ dayFormat.format(currentDate.getTime()));
+        AppointmentsList =((ADoctorUser) StaticFunctionUtilities.getUser()).getAppointments(false);
+        ArrayList<AAppointment> SpecificDayApp = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+        for(int i=0; i<AppointmentsList.size();i++){
+            if((format.format(AppointmentsList.get(i).getAppointmentDate().getTime())).equals(format.format(currentDate.getTime()))){
+                SpecificDayApp.add(AppointmentsList.get(i));
+            }
+        }
+        for(int i = 0; i<SpecificDayApp.size(); i++){
+            for(int j = SpecificDayApp.size()-1; j>i; j--){
+                if(SpecificDayApp.get(j).getAppointmentDate().getTime() < SpecificDayApp.get(j-1).getAppointmentDate().getTime()) {
+                    AAppointment temp = SpecificDayApp.get(j);
+                    SpecificDayApp.set(j, SpecificDayApp.get(j-1));
+                    SpecificDayApp.set(j - 1, temp);
+                }
+            }
+        }
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ListOfDates adapter = new ListOfDates(ContextFlowUtilities.getCurrentView(),SpecificDayApp);
+                LinearLayout dateLayout = parentView.findViewById(R.id.dateListLayout);
+                dateLayout.removeAllViews();
+                for(int i = 0; i< adapter.getCount();i++){
+                    View newview = adapter.getView(i, null, dateLayout);
+                    dateLayout.addView(newview);
+                }
+            }
+        });
+        return convertView;
+    }
+}
+
+
 public class CalendarFragment extends Fragment {
     private Calendar calendar;
     private TextView titleLabel;
-    private int year=2023;
+    private int year = 2023;
     private int month = 5;
-    private int date=6;
-
+    private int date = 6;
 
 
     private View rootView;
+
     public CalendarFragment() {
         // Required empty public constructor
     }
@@ -121,39 +119,31 @@ public class CalendarFragment extends Fragment {
         // Set the first day of the week as Monday
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         ArrayList<Calendar> dates = new ArrayList<Calendar>();
-        for(int i = 0; i<14; i++){
+        for (int i = 0; i < 14; i++) {
             Calendar newCalendar = Calendar.getInstance();
-            newCalendar.setTimeInMillis(calendar.getTimeInMillis()+60*60*24*i*1000);
+            newCalendar.setTimeInMillis(calendar.getTimeInMillis() + 60 * 60 * 24 * i * 1000);
             dates.add(newCalendar);
         }
 
 
         DateButtonAdapter adapter = new DateButtonAdapter(ContextFlowUtilities.getCurrentView(), dates);
         LinearLayout dateLayout = rootView.findViewById(R.id.dateButtonsLayout);
-        for(int i = 0; i< adapter.getCount();i++){
-            View view = adapter.getView(i, null, dateLayout);
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View view = adapter.getView(i, null, dateLayout, rootView);
             dateLayout.addView(view);
         }
-
-
-
         // Get references to UI components
         titleLabel = rootView.findViewById(R.id.MonthText);
         Button previousButton = rootView.findViewById(R.id.PreviousDate);
         Button nextButton = rootView.findViewById(R.id.NextDate);
-
-
         // Update the title
         updateTitle();
-
-
-
         // Set click listeners for buttons
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               date = date-7;
-               calendar.set(year,month,date);
+                date = date - 7;
+                calendar.set(year, month, date);
                 updateTitle();
             }
         });
@@ -161,24 +151,14 @@ public class CalendarFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                date=date+7;
-                calendar.set(year,month,date);
+                date = date + 7;
+                calendar.set(year, month, date);
                 updateTitle();
             }
         });
-
-        ListView AppointList = rootView.findViewById(R.id.listview);
-
-
-
-
-
-
-
         return rootView;
-
-
     }
+
     private void updateTitle() {
     /*
         for(int i=0;i<7; i++){
@@ -238,7 +218,8 @@ public class CalendarFragment extends Fragment {
 
         }*/
     }
-
-
-
 }
+
+
+
+

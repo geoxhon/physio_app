@@ -39,7 +39,12 @@ public class AAppointment {
             this.associatedUser = ((APatientUser)StaticFunctionUtilities.getUser()).getMyDoctor();
         }
     }
-
+    public AAppointment(int appointmentId, AInfo associatedUser, EAppointmentStatus status, Date appointmentDate){
+        this.appointmentId = appointmentId;
+        this.associatedUser = associatedUser;
+        this.status = status;
+        this.appointmentDate = appointmentDate;
+    }
     /**
      * Συνάρτηση για την λήψη της ημερομηνίας του ραντεβού
      * @return Επιστρέφει την ημερομηνία σε μορφή Date
@@ -129,7 +134,7 @@ public class AAppointment {
                 if(id != -1){
                     this.status = EAppointmentStatus.Completed;
                     return new ARecord(new FGetHistoryResponse(true, id, StaticFunctionUtilities.getUser().getUserId(), associatedUser.getUserId(),
-                            details, serviceUsed.getId(), appointmentDate.toString()));
+                            details, serviceUsed.getId(), getGlobalDateString()));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

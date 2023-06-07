@@ -111,14 +111,18 @@ public class NewAppointmentActivity extends ParentActivity {
                     button1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            v.setEnabled(false);
+                            ContextFlowUtilities.presentLoadingAlert("Παρακαλώ Περιμένετε", false);
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    flag = user.bookAppointment(thiselectedate);
-                                    if (flag){
+
+                                    if (user.bookAppointment(thiselectedate)!=null){
+                                        ContextFlowUtilities.dismissLoadingAlert();
                                         ContextFlowUtilities.presentAlert("Επιτυχία", "Το ραντεβού αποθηκεύτηκε με επιτυχία");
                                     }
                                     else{
+                                        ContextFlowUtilities.dismissLoadingAlert();
                                         ContextFlowUtilities.presentAlert("Σφάλμα", "Το ραντεβού δεν αποθηκεύτηκε, παρακαλώ προσπαθήστε αργότερα.");
                                     }
                                 }

@@ -57,11 +57,13 @@ public class PatientInfoActivity extends ParentActivity {
         ((TextView)findViewById(R.id.displayName)).setText(selectedPatient.getDisplayName());
         ((TextView)findViewById(R.id.email)).setText(selectedPatient.getEmail());
         ((TextView)findViewById(R.id.SSN)).setText(selectedPatient.getSSN());
+
         LinearLayout recordLayout = findViewById(R.id.patientRecords);
         ArrayList<ARecord> records = selectedPatient.getPatientHistory();
         PatientRecordAdapter adapter = new PatientRecordAdapter(this, records);
         for (int i = 0; i < adapter.getCount(); i++) {
             View view = adapter.getView(i, null, recordLayout);
+            view.setPadding(0,0,0, 20);
             recordLayout.addView(view);
         }
     }
