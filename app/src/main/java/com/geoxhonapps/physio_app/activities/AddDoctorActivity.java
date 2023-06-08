@@ -10,6 +10,9 @@ import com.geoxhonapps.physio_app.RestUtilities.AManagerUser;
 import com.geoxhonapps.physio_app.StaticFunctionUtilities;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class AddDoctorActivity extends ParentActivity {
 
 
@@ -54,8 +57,10 @@ public class AddDoctorActivity extends ParentActivity {
                 }
                 TextInput = findViewById(R.id.PasswordText);
                 String password  =  TextInput.getText().toString();
-                if(password.isEmpty()){
-                    ContextFlowUtilities.presentAlert("Αποτυχία", "Δεν υπάρχει κωδικός");
+                Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$");
+                Matcher matcher = pattern.matcher(password);
+                if(!(matcher.matches()&&password.length()>=8)){
+                    ContextFlowUtilities.presentAlert("Αποτυχία", "Ο κωδικός πρέπει να περιέχει τουλάχιστον 8 χαρακτήρες, ένα κεφαλαίο χαρακτήρα, ένα σύμβολο και έναν αριθμό.");
                     alldata = false;
                 }
                 TextInput =findViewById(R.id.EmailText);

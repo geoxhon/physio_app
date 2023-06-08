@@ -180,7 +180,13 @@ public class AppointmentFragment extends Fragment {
         bottomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ContextFlowUtilities.moveTo(NewAppointmentActivity.class, true);
+                for(AAppointment appointment: ((APatientUser)StaticFunctionUtilities.getUser()).getAppointments(false)){
+                    if(appointment.getStatus()==EAppointmentStatus.Pending){
+                        ContextFlowUtilities.presentAlert("Σφάλμα", "Δεν μπορείτε να κλείσετε ραντεβού αν υπάρχει ένα σε αναμονή. Δοκιμάστε να το ακυρώσετε και προσπαθήστε ξανά.");
+                        return;
+                    }
+                    ContextFlowUtilities.moveTo(NewAppointmentActivity.class, true);
+                }
             }
         });
         allText = rootView.findViewById(R.id.allText);

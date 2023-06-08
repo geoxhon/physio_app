@@ -3,6 +3,7 @@ package com.geoxhonapps.physio_app.activities;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,32 +30,54 @@ public class HomeActivity extends ParentActivity {
         setContentView(R.layout.home_screen);
         ViewPager2 viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new HomePagerAdapter(this));
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(
                 new NavigationBarView.OnItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch(StaticFunctionUtilities.getUser().getAccountType()){
+                            case Manager:
+                                switch(item.getItemId()){
+                                    case R.id.home:
+                                        viewPager.setCurrentItem(0);
+                                        return true;
+                                    case R.id.doctors:
+                                        viewPager.setCurrentItem(1);
+                                        return true;
+                                }
+                                break;
+                            case Doctor:
+                                switch(item.getItemId()){
+                                    case R.id.home:
+                                        viewPager.setCurrentItem(0);
+                                        return true;
+                                    case R.id.calendar:
+                                        viewPager.setCurrentItem(1);
+                                        return true;
+                                    case R.id.search:
+                                        viewPager.setCurrentItem(2);
+                                        return true;
+                                    case R.id.appointments:
+                                        viewPager.setCurrentItem(3);
+                                        return true;
+                                }
+                                break;
+                            case Patient:
+                                switch(item.getItemId()){
+                                    case R.id.home:
+                                        viewPager.setCurrentItem(0);
+                                        return true;
+                                    case R.id.appointments:
+                                        viewPager.setCurrentItem(1);
+                                        return true;
+                                    case R.id.history:
+                                        viewPager.setCurrentItem(2);
+                                        return true;
+                                }
+                                break;
+                            default:
+                                return false;
 
-                        switch(item.getItemId()){
-                            case R.id.home:
-                                viewPager.setCurrentItem(0);
-                                return true;
-                            case R.id.calendar:
-                                viewPager.setCurrentItem(1);
-                                return true;
-                            case R.id.search:
-                                viewPager.setCurrentItem(2);
-                                return true;
-                            case R.id.appointments:
-                                viewPager.setCurrentItem(3);
-                                return true;
-                            case R.id.history:
-                                viewPager.setCurrentItem(4);
-                                return true;
-                            case R.id.doctors:
-                                viewPager.setCurrentItem(1);
-                                return true;
                         }
                         return false;
                     }

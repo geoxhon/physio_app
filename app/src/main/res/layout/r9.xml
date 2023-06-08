@@ -10,70 +10,69 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="140dp"
-        android:layout_marginBottom="-55dp"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:layout_marginBottom="@dimen/_minus40sdp"
         app:cardCornerRadius="60dp"
         app:cardElevation="20dp">
-
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_24sdp"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:text="Νέο Ραντεβού"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_25sdp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="@dimen/_250sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:layout_marginLeft="@dimen/_28sdp"
-            android:layout_marginTop="@dimen/_370sdp"
-            android:backgroundTint="#56FFB8"
-            android:text="Αποθήκευση"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_22sdp"
-            android:textStyle="bold"
-            app:cornerRadius="@android:dimen/notification_large_icon_width" />
-
-
-        <CalendarView
-            android:id="@+id/calendar"
-            android:layout_width="@dimen/_310sdp"
-            android:layout_height="302dp"
-            android:layout_marginLeft="@dimen/_2sdp"
-            android:layout_marginTop="@dimen/_55sdp"
-            android:clickable="true"
-            android:onClick="CalendarClick" />
-
-        <HorizontalScrollView
-            android:id="@+id/scrollView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="88dp"
-            android:layout_marginTop="@dimen/_295sdp">
-
-            <LinearLayout
-                android:id="@+id/buttonContainer"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="@dimen/_15sdp">
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:text="Νέο Ραντεβού"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_25sdp"
+                android:textStyle="bold" />
+            <CalendarView
+                android:id="@+id/calendar"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
+                android:layout_height="@dimen/_250sdp"
+                android:clickable="true"
+                android:layout_gravity="center_horizontal"
+                android:onClick="CalendarClick" />
 
+            <HorizontalScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <LinearLayout
+                    android:id="@+id/buttonContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+            <Button
+                android:id="@+id/btn"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:backgroundTint="#56FFB8"
+                android:text="Αποθήκευση"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_22sdp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                app:cornerRadius="@android:dimen/notification_large_icon_width" />
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_170sdp"
+        android:layout_height="@dimen/_120sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/_37828871_237527432133294_6737253933245839623_n__1_" />
+        app:srcCompat="@drawable/appointmentlogo" />
 
 
 

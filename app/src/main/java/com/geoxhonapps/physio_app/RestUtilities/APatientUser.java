@@ -135,7 +135,13 @@ public class APatientUser extends AUser{
             int newAppointmentId = StaticFunctionUtilities.getRestController().bookAppointment(date.getTime()/1000);
             if(newAppointmentId!=-1){
                 AAppointment newAppointment = new AAppointment(newAppointmentId, myDoctor, EAppointmentStatus.Pending, date);
-                myAppointments.add(newAppointment);
+                ArrayList<AAppointment> newList = new ArrayList<AAppointment>();
+                newList.add(newAppointment);
+                for(AAppointment oldAppointment: myAppointments){
+                    newList.add(oldAppointment);
+                }
+                bookedTimestamps.add(date.getTime());
+                myAppointments = newList;
                 return newAppointment;
             }
             return null;

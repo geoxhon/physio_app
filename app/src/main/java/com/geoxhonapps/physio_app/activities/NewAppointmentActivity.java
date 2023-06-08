@@ -111,12 +111,12 @@ public class NewAppointmentActivity extends ParentActivity {
                     button1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            v.setEnabled(false);
+                            button1.setEnabled(false);
+                            button1.setBackgroundColor(getResources().getColor(grey_text_hint));
                             ContextFlowUtilities.presentLoadingAlert("Παρακαλώ Περιμένετε", false);
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-
                                     if (user.bookAppointment(thiselectedate)!=null){
                                         ContextFlowUtilities.dismissLoadingAlert();
                                         ContextFlowUtilities.presentAlert("Επιτυχία", "Το ραντεβού αποθηκεύτηκε με επιτυχία");

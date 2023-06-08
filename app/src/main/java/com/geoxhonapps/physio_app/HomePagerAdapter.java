@@ -1,5 +1,7 @@
 package com.geoxhonapps.physio_app;
 
+import android.view.MotionEvent;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -24,10 +26,10 @@ public class HomePagerAdapter extends FragmentStateAdapter {
                 NUM_PAGES = 2;
                 break;
             case Doctor:
-                NUM_PAGES = 5;
+                NUM_PAGES = 4;
                 break;
             case Patient:
-                NUM_PAGES = 2;
+                NUM_PAGES = 3;
                 break;
         }
     }
@@ -56,9 +58,7 @@ public class HomePagerAdapter extends FragmentStateAdapter {
                         return new SearchFragment();
                     case 3:
                         return new AppointmentFragment();
-                    case 4:
-                        return new HistoryFragment();
-                    default:
+                   default:
                         return null;
                 }
 
@@ -68,6 +68,8 @@ public class HomePagerAdapter extends FragmentStateAdapter {
                         return new HomeFragment();
                     case 1:
                         return new AppointmentFragment();
+                    case 2:
+                        return new HistoryFragment();
                     default:
                         return null;
                 }
