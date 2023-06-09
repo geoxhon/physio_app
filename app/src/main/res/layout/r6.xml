@@ -3,56 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#56FFB8"
     tools:context=".fragments.CalendarFragment">
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="vertical">
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center"
-           android:orientation="horizontal">
-           <Button
-               android:id="@+id/PreviousDate"
-               android:layout_width="@dimen/_50sdp"
-               android:layout_height="@dimen/_40sdp"
-               android:backgroundTint="@color/white"
-               android:textSize="@dimen/_8sdp"
-               android:text="back"
 
-               >
-
-           </Button>
-           <TextView
-               android:id="@+id/MonthText"
-               android:layout_width="@dimen/_70sdp"
-               android:layout_height="@dimen/_30sdp"
-               android:textSize="@dimen/_5sdp"
-               android:layout_marginLeft="@dimen/_40sdp"
-               android:layout_marginRight="@dimen/_40sdp"
-               android:layout_gravity="center"
-               android:text="Month"
-
-               >
-
-           </TextView>
-           <Button
-               android:id="@+id/NextDate"
-               android:layout_width="@dimen/_50sdp"
-               android:layout_height="@dimen/_40sdp"
-               android:backgroundTint="@color/white"
-               android:text="for"
-
-
-               >
-
-           </Button>
-
-       </LinearLayout>
-        <HorizontalScrollView
+       <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
            <LinearLayout
@@ -67,11 +25,11 @@
            </LinearLayout>
         </HorizontalScrollView>
        <androidx.core.widget.NestedScrollView
-           android:layout_width="wrap_content"
+           android:layout_width="match_parent"
            android:layout_height="wrap_content">
            <LinearLayout
                android:id="@+id/dateListLayout"
-               android:layout_width="wrap_content"
+               android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:orientation="vertical">
 
