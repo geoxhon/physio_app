@@ -185,8 +185,8 @@ public class AppointmentFragment extends Fragment {
                         ContextFlowUtilities.presentAlert("Σφάλμα", "Δεν μπορείτε να κλείσετε ραντεβού αν υπάρχει ένα σε αναμονή. Δοκιμάστε να το ακυρώσετε και προσπαθήστε ξανά.");
                         return;
                     }
-                    ContextFlowUtilities.moveTo(NewAppointmentActivity.class, true);
                 }
+                ContextFlowUtilities.moveTo(NewAppointmentActivity.class, true);
             }
         });
         allText = rootView.findViewById(R.id.allText);

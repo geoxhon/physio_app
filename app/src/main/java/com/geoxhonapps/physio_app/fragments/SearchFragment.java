@@ -23,7 +23,7 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment {
-
+    private View rootView;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private MyAdapter adapter;
@@ -32,16 +32,15 @@ public class SearchFragment extends Fragment {
     public interface OnItemClickListener {
         void onItemClick(String item);
     }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.r5, container, false);
-
+    public void onResume() {
+        super.onResume();
+        fillSearchBar();
+    }
+    public void fillSearchBar(){
         recyclerView = rootView.findViewById(R.id.recyclerView);
         searchView = rootView.findViewById(R.id.searchView);
-
+        recyclerView.removeAllViews();
         // Initialize the data list
         dataList = new ArrayList<>();
 
@@ -79,9 +78,14 @@ public class SearchFragment extends Fragment {
                 return true;
             }
         });
-
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        this.rootView = inflater.inflate(R.layout.r5, container, false);
+        fillSearchBar();
         return rootView;
-
     }
 
     private void filterData(String query) {

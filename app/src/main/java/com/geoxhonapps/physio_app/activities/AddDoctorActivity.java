@@ -3,6 +3,7 @@ package com.geoxhonapps.physio_app.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.geoxhonapps.physio_app.ContextFlowUtilities;
 import com.geoxhonapps.physio_app.R;
@@ -28,7 +29,7 @@ public class AddDoctorActivity extends ParentActivity {
 
                 boolean alldata = true;
 
-                TextInputEditText TextInput = findViewById(R.id.NameText);
+                EditText TextInput = findViewById(R.id.NameText);
                 // change toast to context flow utility alert
 
                 String name  =  TextInput.getText().toString();

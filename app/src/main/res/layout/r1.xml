@@ -107,9 +107,10 @@
                     android:layout_marginRight="@dimen/_15sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/custom_edittext"
-                    android:padding="8dp"
                     android:backgroundTint="#F6F6F6"
-                    android:hint="Κωδικός" />
+                    android:hint="Κωδικός"
+                    android:inputType="textPassword"
+                    android:padding="8dp" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/EmailText"
