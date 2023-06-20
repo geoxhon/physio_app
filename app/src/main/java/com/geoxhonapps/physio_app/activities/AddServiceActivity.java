@@ -22,6 +22,7 @@ public class AddServiceActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r2);
+        getSupportActionBar().hide();
         btn=findViewById(R.id.r2_save_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
