@@ -7,17 +7,20 @@ public class AInfo {
     private String displayName;
     private String email;
     private String SSN;
-    public AInfo(String userId, String displayName, String email, String SSN){
+    private String address;
+    public AInfo(String userId, String displayName, String email, String SSN, String address){
         this.userId = userId;
         this.displayName = displayName;
         this.email = email;
         this.SSN = SSN;
+        this.address = address;
     }
     public AInfo(FGetChildrenResponse userInfo){
         userId = userInfo.userId;
         displayName = userInfo.displayName;
         email = userInfo.email;
         SSN = userInfo.SSN;
+        this.address = userInfo.address;
     }
 
     /**
@@ -52,5 +55,9 @@ public class AInfo {
 
     public boolean deleteUser(){
         return true;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }

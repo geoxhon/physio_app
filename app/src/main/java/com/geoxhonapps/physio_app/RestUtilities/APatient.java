@@ -15,8 +15,8 @@ public class APatient extends AInfo{
     private String email;
     private String SSN;
     private ArrayList<ARecord> patientHistory = new ArrayList<ARecord>();
-    public APatient(String userId, String displayName, String email, String SSN){
-        super(userId, displayName, email, SSN);
+    public APatient(String userId, String displayName, String email, String SSN, String address){
+        super(userId, displayName, email, SSN, address);
     }
     public APatient(FGetChildrenResponse userInfo){
         super(userInfo);

@@ -57,7 +57,7 @@ public class PatientInfoActivity extends ParentActivity {
         ((TextView)findViewById(R.id.displayName)).setText(selectedPatient.getDisplayName());
         ((TextView)findViewById(R.id.email)).setText(selectedPatient.getEmail());
         ((TextView)findViewById(R.id.SSN)).setText(selectedPatient.getSSN());
-
+        ((TextView)findViewById(R.id.addressText)).setText(selectedPatient.getAddress());
         LinearLayout recordLayout = findViewById(R.id.patientRecords);
         ArrayList<ARecord> records = selectedPatient.getPatientHistory();
         PatientRecordAdapter adapter = new PatientRecordAdapter(this, records);

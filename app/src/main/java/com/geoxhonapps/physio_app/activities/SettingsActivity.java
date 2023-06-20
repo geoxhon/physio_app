@@ -30,6 +30,7 @@ public class SettingsActivity extends ParentActivity {
         ((TextView)findViewById(R.id.displayName)).setText(user.getDisplayName());
         ((TextView)findViewById(R.id.email)).setText(user.getEmail());
         ((TextView)findViewById(R.id.SSN)).setText(user.getSSN());
+        ((TextView)findViewById(R.id.address)).setText(user.getAddress());
         switch(user.getAccountType()){
             case Manager:
                 ((TextView)findViewById(R.id.userType)).setText("Μάνατζερ");

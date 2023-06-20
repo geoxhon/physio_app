@@ -75,7 +75,7 @@ public class AddDoctorActivity extends ParentActivity {
                         @Override
                         public void run() {
 
-                            if( ((AManagerUser) StaticFunctionUtilities.getUser()).createDoctor(username,password,name,email,AFM)){//send data to base, returns boolean
+                            if( ((AManagerUser) StaticFunctionUtilities.getUser()).createDoctor(username,password,name,email,AFM, address)){//send data to base, returns boolean
                                 ContextFlowUtilities.presentAlert("Επιτυχία", "Η καταχώρηση ολοκληρώθηκε με επιτυχία.");
                             }
 

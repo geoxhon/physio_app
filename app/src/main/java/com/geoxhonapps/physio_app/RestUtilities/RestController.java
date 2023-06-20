@@ -53,7 +53,6 @@ public class RestController {
         FRestResponse r = requestComponent.Post("/api/v1/auth/login", obj);
         System.out.println(r.responseContent);
         if(r.statusCode==200) {
-
             JSONObject data = new JSONObject(r.responseContent);
             data = (JSONObject)data.get("triggerResults");
             userId = (String) data.get("userId");
@@ -62,7 +61,7 @@ public class RestController {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("refresh_token", data.getString("refreshToken"));
             editor.apply();
-            return new FLoginResponse(true, userId, (String)data.get("displayName"), username, ((Number)data.get("userType")).intValue(), data.getString("email"), data.getString("ssn"));
+            return new FLoginResponse(true, userId, (String)data.get("displayName"), username, ((Number)data.get("userType")).intValue(), data.getString("email"), data.getString("ssn"), data.getString("address"));
         }
         return new FLoginResponse(false);
     }
@@ -78,8 +77,8 @@ public class RestController {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("refresh_token", data.getString("refreshToken"));
             editor.apply();
-            this.username = username;
-            return new FLoginResponse(true, userId, (String)data.get("displayName"), username, ((Number)data.get("userType")).intValue(), data.getString("email"), data.getString("ssn"));
+            username = data.getString("username");
+            return new FLoginResponse(true, userId, (String)data.get("displayName"), username, ((Number)data.get("userType")).intValue(), data.getString("email"), data.getString("ssn"), data.getString("address"));
         }
         return new FLoginResponse(false);
     }
@@ -92,20 +91,21 @@ public class RestController {
             JSONArray patients = data.getJSONArray("children");
             for(int i = 0; i<patients.length();i++){
                 JSONObject temp = patients.getJSONObject(i);
-                outPatients.add(new FGetChildrenResponse(true, temp.getString("id"), temp.getString("displayName"), temp.getString("email"), temp.getString("ssn")));
+                outPatients.add(new FGetChildrenResponse(true, temp.getString("id"), temp.getString("displayName"), temp.getString("email"), temp.getString("ssn"), temp.getString("address")));
             }
         }
         System.out.println(outPatients);
         return outPatients;
     }
 
-    public FCreateUserResponse registerUser(String username, String password, String displayName, String email, String SSN) throws JSONException, IOException {
+    public FCreateUserResponse registerUser(String username, String password, String displayName, String email, String SSN, String address) throws JSONException, IOException {
         JSONObject obj = new JSONObject();
         obj.put("username", username);
         obj.put("password", password);
         obj.put("displayName", displayName);
         obj.put("email", email);
         obj.put("ssn", SSN);
+        obj.put("address", address);
         FRestResponse r = requestComponent.Post("/api/v1/auth/register", obj);
         JSONObject data = new JSONObject(r.responseContent);
         if(data.getBoolean("success")) {

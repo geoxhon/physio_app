@@ -7,8 +7,8 @@ public class ADoctor extends AInfo{
     private String displayName;
     private String email;
     private String SSN;
-    public ADoctor(String userId, String displayName, String email, String SSN){
-        super(userId, displayName, email,SSN);
+    public ADoctor(String userId, String displayName, String email, String SSN, String address){
+        super(userId, displayName, email,SSN, address);
     }
     public ADoctor(FGetChildrenResponse userInfo){
         super(userInfo);

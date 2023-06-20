@@ -35,9 +35,11 @@ public class AddPatientActivity extends ParentActivity {
                 String a4 = email.getText().toString();
                 EditText amka = findViewById(R.id.amkar3);
                 String a5 = amka.getText().toString();
+                EditText address = findViewById(R.id.addressr3);
+                String a6 = address.getText().toString();
                 Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$");
                 Matcher matcher = pattern.matcher(a2);
-                if ((a1.equals("")||a2.equals("")||a3.equals("")||a4.equals("")||a5.equals(""))){
+                if ((a1.equals("")||a2.equals("")||a3.equals("")||a4.equals("")||a5.equals("")||a6.equals(""))){
                     Toast.makeText(getApplicationContext(),"Παρακαλώ συμπληρώστε όλες τις πληροφορίες",Toast.LENGTH_LONG).show();
                 } else if (a2.length()<8||!matcher.matches()) {
                     Toast.makeText(getApplicationContext(),"O κωδικός πρέπει να αποτελείται από τουλάχιστον 8 χαρακτήρες, 1 συμβολο, 1 αριθμό και 1 κεφαλαίο χαρακτήρα.",Toast.LENGTH_LONG).show();
@@ -45,7 +47,7 @@ public class AddPatientActivity extends ParentActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            boolean flag = ((ADoctorUser) StaticFunctionUtilities.getUser()).createPatient(a1, a2, a3, a4, a5);
+                            boolean flag = ((ADoctorUser) StaticFunctionUtilities.getUser()).createPatient(a1, a2, a3, a4, a5, a6);
                             if (flag) {
                                 username.setHint(" Username");
                                 username.setText("");

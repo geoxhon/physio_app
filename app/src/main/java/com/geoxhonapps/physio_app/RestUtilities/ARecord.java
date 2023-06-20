@@ -26,12 +26,12 @@ public class ARecord {
         }
         AUser currentUser = StaticFunctionUtilities.getUser();
         if(currentUser.getAccountType() == EUserType.Doctor){
-            this.doctor = new ADoctor(currentUser.getUserId(), currentUser.getDisplayName(), currentUser.getEmail(), currentUser.getSSN());
+            this.doctor = new ADoctor(currentUser.getUserId(), currentUser.getDisplayName(), currentUser.getEmail(), currentUser.getSSN(), currentUser.getAddress());
             this.patient = ((ADoctorUser)currentUser).GetPatientById(recordInfo.patient);
             this.patient.addRecord(this);
         }else if(currentUser.getAccountType() == EUserType.Patient){
             this.doctor = ((APatientUser)currentUser).getMyDoctor();
-            this.patient = new APatient(currentUser.getUserId(), currentUser.getDisplayName(), currentUser.getEmail(), currentUser.getSSN());
+            this.patient = new APatient(currentUser.getUserId(), currentUser.getDisplayName(), currentUser.getEmail(), currentUser.getSSN(), currentUser.getAddress());
         }
     }
 

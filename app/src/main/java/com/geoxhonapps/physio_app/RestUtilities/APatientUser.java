@@ -36,7 +36,7 @@ public class APatientUser extends AUser{
                         bookedTimestamps =  response.bookedTimestamps;
                     }
                     FGetCreatorResponse creator = StaticFunctionUtilities.getRestController().getCreator();
-                    myDoctor = new ADoctor("", creator.displayName, creator.email, creator.SSN);
+                    myDoctor = new ADoctor("", creator.displayName, creator.email, creator.SSN, "");
                     ArrayList<FGetAppointmentResponse> tempAppointments = StaticFunctionUtilities.getRestController().getAppointments();
                     for(int i = 0; i<tempAppointments.size(); i++){
                         myAppointments.add(new AAppointment(tempAppointments.get(i)));

@@ -19,6 +19,7 @@ public class AUser {
     private EUserType accountType;
     private String email;
     private String SSN;
+    private String address;
     protected ArrayList<AService> services;
     public AUser(FLoginResponse userInfo){
         userId = userInfo.userId;
@@ -27,6 +28,7 @@ public class AUser {
         accountType = EUserType.values()[userInfo.accountType];
         email = userInfo.email;
         SSN = userInfo.SSN;
+        address = userInfo.address;
         services = new ArrayList<AService>();
     }
 
@@ -108,5 +110,9 @@ public class AUser {
             }
         }
         return null;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }

@@ -74,11 +74,11 @@ public class AManagerUser extends AUser{
      * @param SSN Το ΑΜΚΑ/ΑΦΜ του.
      * @return Επιστρέφει αν η καταχώρηση ήταν επιτυχής. Αν δεν ηταν επιτυχής πρόκειται για διπλότυπο username ή email.
      */
-    public boolean createDoctor(String username, String password, String displayName, String email, String SSN){
+    public boolean createDoctor(String username, String password, String displayName, String email, String SSN, String address){
         try {
-            FCreateUserResponse newPatient = StaticFunctionUtilities.getRestController().registerUser(username, password, displayName, email, SSN);
+            FCreateUserResponse newPatient = StaticFunctionUtilities.getRestController().registerUser(username, password, displayName, email, SSN, address);
             if(newPatient.isSuccess){
-                myDoctors.add(new ADoctor(newPatient.userId, displayName, email, SSN));
+                myDoctors.add(new ADoctor(newPatient.userId, displayName, email, SSN, address));
                 return true;
             }
         } catch (JSONException e) {
