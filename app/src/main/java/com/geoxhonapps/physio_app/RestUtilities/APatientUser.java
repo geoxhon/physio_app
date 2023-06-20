@@ -70,7 +70,7 @@ public class APatientUser extends AUser{
         Date currentDate = new Date();
         for(AAppointment appointment: myAppointments){
             if(appointment.getStatus() == EAppointmentStatus.Confirmed && currentDate.getTime()<appointment.getAppointmentDate().getTime()){
-                if(appointment == null){
+                if(outAppointment == null){
                     outAppointment = appointment;
                 }else if(appointment.getAppointmentDate().getTime()<appointment.getAppointmentDate().getTime()){
                     outAppointment = appointment;
