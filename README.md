@@ -36,7 +36,7 @@ Appointments Management |  Appointment Reservation
 
 ## Authors
 Ι would like to thank everyone who worked on this project.
-- [@geoxhon - Γεώργιος Χονδροματίδης]((https://github.com/geoxhon/))
+- [@geoxhon - Γεώργιος Χονδροματίδης](https://github.com/geoxhon/)
 
 
 ## Special Thanks
