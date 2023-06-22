@@ -25,7 +25,7 @@ Install by importing this project over to Android Studio
 
 The backend of the application can be found of the following repository
 
-- [@geoxhon/Physio-App-Api](https://github.com/geoxhon/Physio-App-API))
+- [@geoxhon/Physio-App-Api](https://github.com/geoxhon/Physio-App-API)
     
 ## Screenshots
 Login Screen |  Main Screen
