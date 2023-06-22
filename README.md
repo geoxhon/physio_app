@@ -23,7 +23,7 @@ Install by importing this project over to Android Studio
 
 ## API
 
-The backend of the application can be found of the following repository
+The backend of the application can be found on the following repository
 
 - [@geoxhon/Physio-App-Api](https://github.com/geoxhon/Physio-App-API)
     
